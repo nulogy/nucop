@@ -5,3 +5,11 @@ This gem contains custom cops and additional tooling for Nulogy's implementation
 This functionaltiy is executed by the `development/scripts/nucop.thor` script.
 
 For details on how to run `RuboCop`, see the documentation for the `nucop.thor` script: `development/docs/rubocop_configuration.md`.
+
+## TODO
+
+* Get access to private repo from Gemfile
+* Update README
+  * Describe features
+  * Document commands
+* Move thor script to here
