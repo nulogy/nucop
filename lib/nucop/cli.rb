@@ -109,7 +109,7 @@ module Nucop
     desc "ready_for_promotion", "display the next n cops with the fewest offenses"
     method_option "n", type: :numeric, default: 1, desc: "number of cops to display"
     def ready_for_promotion
-      finder = ::Nucop::Helpers::NextCopForPromotion.new(RUBOCOP_TODO_FILE)
+      finder = Helpers::NextCopForPromotion.new(RUBOCOP_TODO_FILE)
       todo_config = YAML.load_file(RUBOCOP_TODO_FILE)
 
       puts "The following cop(s) are ready to be promoted to enforced. Good luck!"
@@ -159,7 +159,7 @@ module Nucop
 
     def print_cops_being_run(only_option)
       if only_option
-        enforced_cops_count = ::Nucop::Helpers::CopCounter.count(enabled_cops, only_option.split(","))
+        enforced_cops_count = Helpers::CopCounter.count(enabled_cops, only_option.split(","))
         puts "Running with a force of #{enforced_cops_count} cops. See '#{ENFORCED_COPS_FILE}' for more details."
       else
         puts "Running all cops (specify using the 'only' option)"
@@ -209,7 +209,7 @@ module Nucop
     def update_enforced_cops
       puts "Updating enforced cops list..."
 
-      current_enforced_cops = ::Nucop::Helpers::CopSet.new(enforced_cops)
+      current_enforced_cops = Helpers::CopSet.new(enforced_cops)
       cops_without_violations.each do |cop|
         current_enforced_cops.add_cop(cop)
       end
