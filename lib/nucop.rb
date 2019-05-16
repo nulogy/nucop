@@ -1,4 +1,5 @@
 require "nucop/version"
+
 require "rubocop"
 require "git_diff_parser"
 
