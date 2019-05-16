@@ -2,14 +2,20 @@
 
 This gem contains custom cops and additional tooling for Nulogy's implementation of [RuboCop](https://github.com/rubocop-hq/rubocop).
 
-This functionaltiy is executed by the `development/scripts/nucop.thor` script.
+This functionaltiy is executed by the `bin/nucop` executable. If you installed the gem, it will be added to your path.
 
-For details on how to run `RuboCop`, see the documentation for the `nucop.thor` script: `development/docs/rubocop_configuration.md`.
+## Requirements
+
+Beyond a working Ruby installation and what is specified in the gemspec, we make some assumptions about your environment:
+
+* [git](https://git-scm.com/) for SCM
+* `grep`
 
 ## TODO
 
-* Get access to private repo from Gemfile
 * Update README
   * Describe features
   * Document commands
-* Move thor script to here
+* Introduce configuration
+  * options for .rubocop files
+  * option for .diffignore
