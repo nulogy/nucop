@@ -68,8 +68,7 @@ class NucopCLI < Thor
   desc "rubocop", "run rubocop on files provided"
   method_option "only", desc: "run only specified cop(s) and/or cops in the specified departments"
   method_option "auto-correct", type: :boolean, default: false, desc: "runs rubocop with auto-correct option"
-  method_option "exclude-backlog", type: :boolean, default: false, desc: "when true, uses config which excludes current violations in .rubocop_todo.yml"
-
+  method_option "exclude-backlog", type: :boolean, default: false, desc: "when true, uses config which excludes current violations in #{RUBOCOP_TODO_FILE}"
   def rubocop(files = nil)
     print_cops_being_run(options[:only])
     config_file = options[:"exclude-backlog"] ? ".rubocop.yml" : RUBOCOP_BACKLOG_FILE
@@ -79,7 +78,7 @@ class NucopCLI < Thor
     system("bundle exec rubocop --require rubocop-rspec --require rubocop-performance #{junit_report_options} --force-exclusion --config #{config_file} #{pass_through_option(options, 'auto-correct')} #{pass_through_flag(options, 'only')} #{files}")
   end
 
-  desc "regen_backlog", "update the Rubocop backlog (updates .rubocop_todo.yml), disabling offending files and excluding all cops with over 500 violating files."
+  desc "regen_backlog", "update the Rubocop backlog (#{RUBOCOP_TODO_FILE}), disabling offending files and excluding all cops with over 500 violating files."
   def regen_backlog
     regenerate_rubocop_todos
     update_enforced_cops
