@@ -47,7 +47,6 @@ module Nucop
           puts "There are no non-ignored rb files present in diff."
           return true
         end
-
       end
 
       files = options[:ignore] ? non_ignored_diff_files : diff_files
