@@ -72,7 +72,7 @@ module Nucop
     end
 
     desc "regen_backlog", "update the RuboCop backlog, disabling offending files and excluding all cops with over 500 violating files."
-    method_option "exclude-limit", type: :integer, default: 500, desc: "Limit files listed to this limit. Passed to RuboCop"
+    method_option "exclude-limit", type: :numeric, default: 500, desc: "Limit files listed to this limit. Passed to RuboCop"
     def regen_backlog
       regenerate_rubocop_todos
       update_enforced_cops
