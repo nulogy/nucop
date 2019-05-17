@@ -17,5 +17,4 @@ Beyond a working Ruby installation and what is specified in the gemspec, we make
   * Describe features
   * Document commands
 * Introduce configuration
-  * options for .rubocop files
   * option for .diffignore

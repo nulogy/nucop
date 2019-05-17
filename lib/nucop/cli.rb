@@ -2,9 +2,6 @@ require "thor"
 require "open3"
 
 CONFIGURATION_FILEPATH = ".nucop.yml"
-ENFORCED_COPS_FILE = ".rubocop.enforced.yml"
-RUBOCOP_TODO_FILE = ".rubocop_todo.yml"
-RUBOCOP_BACKLOG_FILE = ".rubocop.backlog.yml"
 
 module Nucop
   class CLI < Thor
@@ -68,7 +65,7 @@ module Nucop
     method_option "exclude-backlog", type: :boolean, default: false, desc: "when true, uses config which excludes violations in the RuboCop backlog"
     def rubocop(files = nil)
       print_cops_being_run(options[:only])
-      config_file = options[:"exclude-backlog"] ? ".rubocop.yml" : RUBOCOP_BACKLOG_FILE
+      config_file = options[:"exclude-backlog"] ? ".rubocop.yml" : options[:rubocop_todo_config_file]
       junit_report_path = options[:"junit_report"]
       junit_report_options = junit_report_path.to_s.empty? ? "" : "--format Nucop::Formatters::JUnitFormatter --out #{junit_report_path} --format progress"
 
@@ -82,7 +79,7 @@ module Nucop
       update_enforced_cops
     end
 
-    desc "update_enforced", "update the enforced cops list with cops that no longer have violations"
+    desc "update_enforced", "update the enforced cops list with file with cops that no longer have violations"
     def update_enforced
       update_enforced_cops
     end
@@ -97,7 +94,7 @@ module Nucop
       command = [
         "bundle exec rubocop",
         "--format Nucop::Formatters::GitDiffFormatter",
-        "--config #{RUBOCOP_BACKLOG_FILE}",
+        "--config #{options[:rubocop_todo_config_file]}",
         multi_line_to_single_line(diff_files).to_s
       ].join(" ")
 
@@ -108,8 +105,8 @@ module Nucop
     desc "ready_for_promotion", "display the next n cops with the fewest offenses"
     method_option "n", type: :numeric, default: 1, desc: "number of cops to display"
     def ready_for_promotion
-      finder = Helpers::NextCopForPromotion.new(RUBOCOP_TODO_FILE)
-      todo_config = YAML.load_file(RUBOCOP_TODO_FILE)
+      finder = Helpers::NextCopForPromotion.new(options[:rubocop_todo_file])
+      todo_config = YAML.load_file(options[:rubocop_todo_file])
 
       puts "The following cop(s) are ready to be promoted to enforced. Good luck!"
       puts "Remember to run `nucop:regen_backlog` to capture your hard work."
@@ -120,7 +117,7 @@ module Nucop
 
         files = todo_config.fetch(todo.name, {}).fetch("Exclude", [])
 
-        system("bundle exec rubocop --config #{RUBOCOP_BACKLOG_FILE} --only #{todo.name} #{files.join(' ')}")
+        system("bundle exec rubocop --config #{options[:rubocop_todo_config_file]} --only #{todo.name} #{files.join(' ')}")
         puts("*" * 100) if options["n"] > 1
         puts
       end
@@ -139,7 +136,7 @@ module Nucop
     end
 
     def enforced_cops
-      @enforced_cops ||= YAML.load_file(ENFORCED_COPS_FILE)
+      @enforced_cops ||= YAML.load_file(options[:enforced_cops_file])
     end
 
     def capture_std_out(command, error_message = nil, stdin_data = nil)
@@ -159,7 +156,7 @@ module Nucop
     def print_cops_being_run(only_option)
       if only_option
         enforced_cops_count = Helpers::CopCounter.count(enabled_cops, only_option.split(","))
-        puts "Running with a force of #{enforced_cops_count} cops. See '#{ENFORCED_COPS_FILE}' for more details."
+        puts "Running with a force of #{enforced_cops_count} cops. See '#{options[:enforced_cops_file]}' for more details."
       else
         puts "Running all cops (specify using the 'only' option)"
       end
@@ -185,12 +182,12 @@ module Nucop
     end
 
     def regenerate_rubocop_todos
-      puts "Regenerating '#{RUBOCOP_TODO_FILE}' (with output written to '.rubocop.backlog.txt')."
+      puts "Regenerating '#{options[:rubocop_todo_file]}' (with output written to '.rubocop.backlog.txt')."
       puts "Please be patient..."
 
       options = [
         "--auto-gen-config",
-        "--config #{RUBOCOP_BACKLOG_FILE}",
+        "--config #{options[:rubocop_todo_config_file]}",
         "--exclude-limit #{options[:exclude-limit]}",
         "--out .rubocop.backlog.txt"
       ]
@@ -199,10 +196,10 @@ module Nucop
 
       system(rubocop_command)
 
-      # RuboCop wants to inherit from our todos (RUBOCOP_TODO_FILE) in our backlog configuration file (RUBOCOP_BACKLOG_FILE)
+      # RuboCop wants to inherit from our todos (options[:rubocop_todo_file]) in our backlog configuration file (options[:rubocop_todo_config_file])
       # However, that means the next time we try to update our backlog, it will NOT include the violations recorded as todo
       # For now, we ignore any changes in our backlog config
-      system("git checkout #{RUBOCOP_BACKLOG_FILE}")
+      system("git checkout #{options[:rubocop_todo_config_file]}")
     end
 
     def update_enforced_cops
@@ -214,17 +211,17 @@ module Nucop
       end
 
       if current_enforced_cops.cop_added?
-        File.open(ENFORCED_COPS_FILE, "w+") do |f|
+        File.open(options[:enforced_cops_file], "w+") do |f|
           f.write(current_enforced_cops.to_a.sort.to_yaml)
         end
-        puts "Updated '#{ENFORCED_COPS_FILE}'!"
+        puts "Updated '#{options[:enforced_cops_file]}'!"
       else
         puts "No new cops are clear of violations"
       end
     end
 
     def cops_without_violations
-      cops_with_violations = YAML.load_file(RUBOCOP_TODO_FILE).map(&:first)
+      cops_with_violations = YAML.load_file(options[:rubocop_todo_file]).map(&:first)
 
       enabled_cops - cops_with_violations
     end
@@ -252,9 +249,9 @@ module Nucop
 
     def default_configuration
       {
-        enforced_cops_file: ENFORCED_COPS_FILE,
-        rubocop_todo_file: RUBOCOP_TODO_FILE,
-        rubocop_todo_config_file: RUBOCOP_BACKLOG_FILE
+        enforced_cops_file: ".rubocop.enforced.yml",
+        rubocop_todo_file: ".rubocop_todo.yml",
+        rubocop_todo_config_file: ".rubocop.backlog.yml"
       }
     end
   end
