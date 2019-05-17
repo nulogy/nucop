@@ -1,27 +1,28 @@
 require "thor"
 require "open3"
 
+CONFIGURATION_FILEPATH = ".nucop.yml"
 ENFORCED_COPS_FILE = ".rubocop.enforced.yml"
 RUBOCOP_TODO_FILE = ".rubocop_todo.yml"
 RUBOCOP_BACKLOG_FILE = ".rubocop.backlog.yml"
 
 module Nucop
   class CLI < Thor
-    desc "diff_enforced", "run rubocop on the current diff using enforced cops only (see '#{ENFORCED_COPS_FILE}')"
+    desc "diff_enforced", "run RuboCop on the current diff using only the enforced cops"
     method_option "commit-spec", default: "origin/master", desc: "the commit used to determine the diff."
-    method_option "auto-correct", type: :boolean, default: false, desc: "runs rubocop with auto-correct option"
-    method_option "junit_report", type: :string, default: "", desc: "runs rubocop with junit formatter option"
+    method_option "auto-correct", type: :boolean, default: false, desc: "runs RuboCop with auto-correct option"
+    method_option "junit_report", type: :string, default: "", desc: "runs RuboCop with junit formatter option"
     def diff_enforced
       invoke :diff, nil, options.merge(only: cops_to_enforce.join(","))
     end
 
-    desc "diff", "run rubocop on the current diff"
+    desc "diff", "run RuboCop on the current diff"
     method_option "commit-spec", default: "origin/master", desc: "the commit used to determine the diff."
     method_option "only", desc: "run only specified cop(s) and/or cops in the specified departments"
-    method_option "auto-correct", type: :boolean, default: false, desc: "runs rubocop with auto-correct option"
+    method_option "auto-correct", type: :boolean, default: false, desc: "runs RuboCop with auto-correct option"
     method_option "ignore", type: :boolean, default: true, desc: "ignores files specified in development/rubocop/.diffignore"
-    method_option "added-only", type: :boolean, default: false, desc: "runs rubocop only on files that have been added (not on files that have been modified)"
-    method_option "exit", type: :boolean, default: true, desc: "disable to prevent task from exiting. used by other thor tasks when invoking this task, to prevent parent task from exiting"
+    method_option "added-only", type: :boolean, default: false, desc: "runs RuboCop only on files that have been added (not on files that have been modified)"
+    method_option "exit", type: :boolean, default: true, desc: "disable to prevent task from exiting. Used by other Thor tasks when invoking this task, to prevent parent task from exiting"
     def diff
       puts "Running on files changed relative to '#{options[:"commit-spec"]}' (specify using the 'commit-spec' option)"
       diff_filter = options[:"added-only"] ? "A" : "d"
@@ -35,7 +36,6 @@ module Nucop
           exit 0
         else
           puts "There are no rb files present in diff."
-          # Returns true for the integrate task which should continue (not exit)
           return true
         end
       end
@@ -48,7 +48,6 @@ module Nucop
           exit 0
         else
           puts "There are no non-ignored rb files present in diff."
-          # Returns true for the integrate task which should continue (not exit)
           return true
         end
 
@@ -63,10 +62,10 @@ module Nucop
       exit 0
     end
 
-    desc "rubocop", "run rubocop on files provided"
+    desc "rubocop", "run RuboCop on files provided"
     method_option "only", desc: "run only specified cop(s) and/or cops in the specified departments"
-    method_option "auto-correct", type: :boolean, default: false, desc: "runs rubocop with auto-correct option"
-    method_option "exclude-backlog", type: :boolean, default: false, desc: "when true, uses config which excludes current violations in #{RUBOCOP_TODO_FILE}"
+    method_option "auto-correct", type: :boolean, default: false, desc: "runs RuboCop with auto-correct option"
+    method_option "exclude-backlog", type: :boolean, default: false, desc: "when true, uses config which excludes violations in the RuboCop backlog"
     def rubocop(files = nil)
       print_cops_being_run(options[:only])
       config_file = options[:"exclude-backlog"] ? ".rubocop.yml" : RUBOCOP_BACKLOG_FILE
@@ -76,20 +75,20 @@ module Nucop
       system("bundle exec rubocop --require rubocop-rspec --require rubocop-performance #{junit_report_options} --force-exclusion --config #{config_file} #{pass_through_option(options, 'auto-correct')} #{pass_through_flag(options, 'only')} #{files}")
     end
 
-    desc "regen_backlog", "update the Rubocop backlog (#{RUBOCOP_TODO_FILE}), disabling offending files and excluding all cops with over 500 violating files."
+    desc "regen_backlog", "update the RuboCop backlog, disabling offending files and excluding all cops with over 500 violating files."
+    method_option "exclude-limit", type: :integer, default: 500, desc: "Limit files listed to this limit. Passed to RuboCop"
     def regen_backlog
       regenerate_rubocop_todos
       update_enforced_cops
     end
 
-    desc "update_enforced", "update the '#{ENFORCED_COPS_FILE}' file with cops that no longer have violations"
+    desc "update_enforced", "update the enforced cops list with cops that no longer have violations"
     def update_enforced
       update_enforced_cops
     end
 
     desc "modified_lines", "display RuboCop violations for ONLY modified lines"
     method_option "commit-spec", default: "master", desc: "the commit used to determine the diff."
-
     def modified_lines
       diff_files, diff_status = Open3.capture2("git diff #{options[:'commit-spec']} --diff-filter=d --name-only | grep \"\\.rb$\"")
 
@@ -192,7 +191,7 @@ module Nucop
       options = [
         "--auto-gen-config",
         "--config #{RUBOCOP_BACKLOG_FILE}",
-        "--exclude-limit 500",
+        "--exclude-limit #{options[:exclude-limit]}",
         "--out .rubocop.backlog.txt"
       ]
 
@@ -232,6 +231,31 @@ module Nucop
 
     def enabled_cops
       YAML.load(`bundle exec rubocop --show-cops`).select { |_, config| config["Enabled"] }.map(&:first)
+    end
+
+    # We monkeypatch the options method to merge in our defaults
+    def options
+      return @_options if defined?(@_options)
+
+      original_options = super
+      @_options = Thor::CoreExt::HashWithIndifferentAccess.new(configuration_options.merge(original_options))
+    end
+
+    def configuration_options
+      if File.exist?(CONFIGURATION_FILEPATH)
+        default_configuration.merge(YAML.load_file(CONFIGURATION_FILEPATH))
+      else
+        default_configuration
+      end
+
+    end
+
+    def default_configuration
+      {
+        enforced_cops_file: ENFORCED_COPS_FILE,
+        rubocop_todo_file: RUBOCOP_TODO_FILE,
+        rubocop_todo_config_file: RUBOCOP_BACKLOG_FILE
+      }
     end
   end
 end
