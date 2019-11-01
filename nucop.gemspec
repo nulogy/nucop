@@ -9,9 +9,12 @@ Gem::Specification.new do |spec|
   spec.authors = ["Jason Schweier"]
   spec.email   = ["jasons@nulogy.com"]
   spec.summary = "Nulogy's implementation of RuboCop, including custom cops and additional tooling."
+  spec.licenses    = ["MIT"]
+  spec.homepage = "https://rubygems.org/gems/nucop"
+  spec.metadata = { "source_code_uri" => "https://github.com/nulogy/nucop" }
   spec.bindir = "bin"
   spec.executables = "nucop"
-  spec.files   = Dir["lib/**/*"]
+  spec.files = Dir["lib/**/*"]
   spec.test_files = Dir["spec/**/*"]
   spec.require_paths = ["lib"]
 
