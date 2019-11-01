@@ -241,7 +241,6 @@ module Nucop
       else
         default_configuration
       end
-
     end
 
     def default_configuration
