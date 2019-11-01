@@ -183,13 +183,13 @@ module Nucop
     def regenerate_rubocop_todos
       puts "Regenerating '#{options[:rubocop_todo_file]}'. Please be patient..."
 
-      options = [
+      rubocop_options = [
         "--auto-gen-config",
         "--config #{options[:rubocop_todo_config_file]}",
         "--exclude-limit #{options[:exclude-limit]}"
       ]
 
-      rubocop_command = "DISABLE_SPRING=1 bundle exec rubocop #{options.join(' ')}"
+      rubocop_command = "DISABLE_SPRING=1 bundle exec rubocop #{rubocop_options.join(' ')}"
 
       system(rubocop_command)
 
