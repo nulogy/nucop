@@ -194,7 +194,7 @@ module Nucop
       rubocop_options = [
         "--auto-gen-config",
         "--config #{options[:rubocop_todo_config_file]}",
-        "--exclude-limit #{options[:exclude-limit]}",
+        "--exclude-limit #{options[:'exclude-limit']}",
         "--require rubocop-rspec",
         "--require rubocop-performance",
         "--require rubocop-rails"
