@@ -15,12 +15,13 @@ Gem::Specification.new do |spec|
   spec.test_files = Dir["spec/**/*"]
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "rake", "12.3.2"
-  spec.add_development_dependency "rspec", "3.8.0"
+  spec.add_development_dependency "rake", "13.0.0"
+  spec.add_development_dependency "rspec", "3.9.0"
 
-  spec.add_dependency "git_diff_parser", "3.1"
-  spec.add_dependency "rubocop", "0.68.1"
-  spec.add_dependency "rubocop-performance", "1.1.0"
-  spec.add_dependency "rubocop-rspec", "1.32.0"
-  spec.add_dependency "ruby-progressbar", "1.10.0"
+  spec.add_dependency "git_diff_parser", "3.2"
+  spec.add_dependency "rubocop", "0.75.1"
+  spec.add_dependency "rubocop-performance", "1.5.0"
+  spec.add_dependency "rubocop-rails", "2.3.2"
+  spec.add_dependency "rubocop-rspec", "1.36.0"
+  spec.add_dependency "ruby-progressbar", "~> 1.10"
 end
