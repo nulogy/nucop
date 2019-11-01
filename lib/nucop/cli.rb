@@ -18,7 +18,7 @@ module Nucop
     method_option "commit-spec", default: "origin/master", desc: "the commit used to determine the diff."
     method_option "only", desc: "run only specified cop(s) and/or cops in the specified departments"
     method_option "auto-correct", type: :boolean, default: false, desc: "runs RuboCop with auto-correct option"
-    method_option "ignore", type: :boolean, default: true, desc: "ignores files specified in development/rubocop/.diffignore"
+    method_option "ignore", type: :boolean, default: true, desc: "ignores files specified in #{options[:diffignore_file]}"
     method_option "added-only", type: :boolean, default: false, desc: "runs RuboCop only on files that have been added (not on files that have been modified)"
     method_option "exit", type: :boolean, default: true, desc: "disable to prevent task from exiting. Used by other Thor tasks when invoking this task, to prevent parent task from exiting"
     def diff
@@ -26,7 +26,7 @@ module Nucop
       diff_filter = options[:"added-only"] ? "A" : "d"
       diff_base = capture_std_out("git merge-base HEAD #{options[:"commit-spec"]}").chomp
 
-      diff_files, diff_status = Open3.capture2("git diff #{diff_base} --diff-filter=#{diff_filter} --name-only | grep \"\\.rb$\"")
+      files, diff_status = Open3.capture2("git diff #{diff_base} --diff-filter=#{diff_filter} --name-only | grep \"\\.rb$\"")
 
       if diff_status != 0
         if options[:exit]
@@ -38,19 +38,19 @@ module Nucop
         end
       end
 
-      non_ignored_diff_files, non_ignored_diff_status = Open3.capture2("grep -v -f development/rubocop/.diffignore", stdin_data: diff_files)
+      if options[:ignore] && File.exist?(options[:diffignore_file]) && !File.zero?(options[:diffignore_file])
+        files, non_ignored_diff_status = Open3.capture2("grep -v -f #{options[:diffignore_file]}", stdin_data: files)
 
-      if non_ignored_diff_status != 0
-        if options[:exit]
-          puts "There are no non-ignored rb files present in diff. Exiting."
-          exit 0
-        else
-          puts "There are no non-ignored rb files present in diff."
-          return true
+        if non_ignored_diff_status != 0
+          if options[:exit]
+            puts "There are no non-ignored rb files present in diff. Exiting."
+            exit 0
+          else
+            puts "There are no non-ignored rb files present in diff."
+            return true
+          end
         end
       end
-
-      files = options[:ignore] ? non_ignored_diff_files : diff_files
 
       no_violations_detected = invoke :rubocop, [multi_line_to_single_line(files)], options
 
@@ -260,7 +260,8 @@ module Nucop
       {
         enforced_cops_file: ".rubocop.enforced.yml",
         rubocop_todo_file: ".rubocop_todo.yml",
-        rubocop_todo_config_file: ".rubocop.backlog.yml"
+        rubocop_todo_config_file: ".rubocop.backlog.yml",
+        diffignore_file: ".nucop_diffignore"
       }
     end
   end
