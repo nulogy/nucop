@@ -32,3 +32,7 @@ See the example config file `.nucop.yml.example`
 * Undocumented option `junit_report` in `rubocop` command
 * Introduce `RubocopCommandBuilder`
 * Add tests!
+
+## License
+
+The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
