@@ -2,3 +2,4 @@
   enforced_cops_file: ".rubocop.enforced.yml"
   rubocop_todo_file: ".rubocop_todo.yml"
   rubocop_todo_config_file: ".rubocop.backlog.yml"
+  diffignore_file: ".nucop_diffignore"
