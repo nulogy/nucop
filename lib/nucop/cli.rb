@@ -238,12 +238,14 @@ module Nucop
       YAML.load(`bundle exec rubocop --parallel --show-cops`).select { |_, config| config["Enabled"] }.map(&:first)
     end
 
-    # We monkeypatch the options method to merge in our defaults
+    # Override Thor's options method to include Nucop's options
     def options
       return @_options if defined?(@_options)
 
       original_options = super
-      @_options = Thor::CoreExt::HashWithIndifferentAccess.new(configuration_options.merge(original_options))
+      @_options = Thor::CoreExt::HashWithIndifferentAccess.new(
+        configuration_options.merge(original_options)
+      )
     end
 
     def configuration_options
