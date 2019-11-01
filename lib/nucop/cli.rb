@@ -68,7 +68,13 @@ module Nucop
       junit_report_path = options[:"junit_report"]
       junit_report_options = junit_report_path.to_s.empty? ? "" : "--format Nucop::Formatters::JUnitFormatter --out #{junit_report_path} --format progress"
 
-      system("bundle exec rubocop --require rubocop-rspec --require rubocop-performance #{junit_report_options} --force-exclusion --config #{config_file} #{pass_through_option(options, 'auto-correct')} #{pass_through_flag(options, 'only')} #{files}")
+      rubocop_requires = [
+        "--require rubocop-rspec",
+        "--require rubocop-performance",
+        "--require rubocop-rails"
+      ]
+
+      system("bundle exec rubocop --parallel #{rubocop_requires.join(' ')} #{junit_report_options} --force-exclusion --config #{config_file} #{pass_through_option(options, 'auto-correct')} #{pass_through_flag(options, 'only')} #{files}")
     end
 
     desc "regen_backlog", "update the RuboCop backlog, disabling offending files and excluding all cops with over 500 violating files."
@@ -92,6 +98,7 @@ module Nucop
 
       command = [
         "bundle exec rubocop",
+        "--parallel",
         "--format Nucop::Formatters::GitDiffFormatter",
         "--config #{options[:rubocop_todo_config_file]}",
         multi_line_to_single_line(diff_files).to_s
@@ -116,7 +123,7 @@ module Nucop
 
         files = todo_config.fetch(todo.name, {}).fetch("Exclude", [])
 
-        system("bundle exec rubocop --config #{options[:rubocop_todo_config_file]} --only #{todo.name} #{files.join(' ')}")
+        system("bundle exec rubocop --parallel --config #{options[:rubocop_todo_config_file]} --only #{todo.name} #{files.join(' ')}")
         puts("*" * 100) if options["n"] > 1
         puts
       end
@@ -186,7 +193,10 @@ module Nucop
       rubocop_options = [
         "--auto-gen-config",
         "--config #{options[:rubocop_todo_config_file]}",
-        "--exclude-limit #{options[:exclude-limit]}"
+        "--exclude-limit #{options[:exclude-limit]}",
+        "--require rubocop-rspec",
+        "--require rubocop-performance",
+        "--require rubocop-rails"
       ]
 
       rubocop_command = "DISABLE_SPRING=1 bundle exec rubocop #{rubocop_options.join(' ')}"
@@ -224,7 +234,7 @@ module Nucop
     end
 
     def enabled_cops
-      YAML.load(`bundle exec rubocop --show-cops`).select { |_, config| config["Enabled"] }.map(&:first)
+      YAML.load(`bundle exec rubocop --parallel --show-cops`).select { |_, config| config["Enabled"] }.map(&:first)
     end
 
     # We monkeypatch the options method to merge in our defaults
