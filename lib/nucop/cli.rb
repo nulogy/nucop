@@ -1,6 +1,7 @@
 require "thor"
 require "open3"
 
+RUBOCOP_DEFAULT_CONFIG_FILE = ".rubocop.yml"
 CONFIGURATION_FILEPATH = ".nucop.yml"
 
 module Nucop
@@ -64,7 +65,7 @@ module Nucop
     method_option "exclude-backlog", type: :boolean, default: false, desc: "when true, uses config which excludes violations in the RuboCop backlog"
     def rubocop(files = nil)
       print_cops_being_run(options[:only])
-      config_file = options[:"exclude-backlog"] ? ".rubocop.yml" : options[:rubocop_todo_config_file]
+      config_file = options[:"exclude-backlog"] ? RUBOCOP_DEFAULT_CONFIG_FILE : options[:rubocop_todo_config_file]
       junit_report_path = options[:"junit_report"]
       junit_report_options = junit_report_path.to_s.empty? ? "" : "--format Nucop::Formatters::JUnitFormatter --out #{junit_report_path} --format progress"
 
