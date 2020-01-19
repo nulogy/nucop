@@ -29,9 +29,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "3.9.0"
 
   spec.add_dependency "git_diff_parser", "3.2"
-  spec.add_dependency "rubocop", "0.75.1"
-  spec.add_dependency "rubocop-performance", "1.5.0"
-  spec.add_dependency "rubocop-rails", "2.3.2"
-  spec.add_dependency "rubocop-rspec", "1.36.0"
+  spec.add_dependency "rubocop", "0.79.0"
+  spec.add_dependency "rubocop-performance", "1.5.2"
+  spec.add_dependency "rubocop-rails", "2.4.1"
+  spec.add_dependency "rubocop-rspec", "1.37.0"
   spec.add_dependency "ruby-progressbar", "~> 1.10"
 end
