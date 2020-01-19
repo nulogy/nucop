@@ -4,14 +4,21 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "nucop/version"
 
 Gem::Specification.new do |spec|
-  spec.name    = "nucop"
+  spec.name = "nucop"
   spec.version = Nucop::VERSION
   spec.authors = ["Jason Schweier"]
-  spec.email   = ["jasons@nulogy.com"]
+  spec.email = ["jasons@nulogy.com"]
   spec.summary = "Nulogy's implementation of RuboCop, including custom cops and additional tooling."
-  spec.licenses    = ["MIT"]
+  spec.licenses = ["MIT"]
   spec.homepage = "https://rubygems.org/gems/nucop"
-  spec.metadata = { "source_code_uri" => "https://github.com/nulogy/nucop" }
+
+  spec.metadata = {
+    "homepage_uri" => "https://github.com/nulogy/nucop",
+    "changelog_uri" => "https://github.com/nulogy/nucop/blob/master/CHANGELOG.md",
+    "source_code_uri" => "https://github.com/nulogy/nucop",
+    "bug_tracker_uri" => "https://github.com/nulogy/nucop/issues"
+  }
+
   spec.bindir = "bin"
   spec.executables = "nucop"
   spec.files = Dir["lib/**/*"]
@@ -22,9 +29,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "3.9.0"
 
   spec.add_dependency "git_diff_parser", "3.2"
-  spec.add_dependency "rubocop", "0.75.1"
-  spec.add_dependency "rubocop-performance", "1.5.0"
-  spec.add_dependency "rubocop-rails", "2.3.2"
-  spec.add_dependency "rubocop-rspec", "1.36.0"
+  spec.add_dependency "rubocop", "0.79.0"
+  spec.add_dependency "rubocop-performance", "1.5.2"
+  spec.add_dependency "rubocop-rails", "2.4.1"
+  spec.add_dependency "rubocop-rspec", "1.37.0"
   spec.add_dependency "ruby-progressbar", "~> 1.10"
 end
