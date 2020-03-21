@@ -10,6 +10,7 @@ module Nucop
     method_option "commit-spec", default: "origin/master", desc: "the commit used to determine the diff."
     method_option "auto-correct", type: :boolean, default: false, desc: "runs RuboCop with auto-correct option"
     method_option "junit_report", type: :string, default: "", desc: "runs RuboCop with junit formatter option"
+    method_option "json", type: :string, default: nil, desc: "Output results as JSON format to the provided file"
     def diff_enforced
       invoke :diff, nil, options.merge(only: cops_to_enforce.join(","))
     end
@@ -66,20 +67,22 @@ module Nucop
     def rubocop(files = nil)
       print_cops_being_run(options[:only])
       config_file = options[:"exclude-backlog"] ? RUBOCOP_DEFAULT_CONFIG_FILE : options[:rubocop_todo_config_file]
-      junit_report_path = options[:"junit_report"]
-      junit_report_options = junit_report_path.to_s.empty? ? "" : "--format Nucop::Formatters::JUnitFormatter --out #{junit_report_path} --format progress"
-
       rubocop_requires = [
         "--require rubocop-rspec",
         "--require rubocop-performance",
         "--require rubocop-rails"
       ]
 
+      formatters = []
+      formatters << "--format Nucop::Formatters::JUnitFormatter --out #{options[:junit_report]}" if options[:junit_report]
+      formatters << "--format json --out #{options[:json]}" if options[:json]
+      formatters << "--format progress" if formatters.any?
+
       command = [
         "bundle exec rubocop",
         "--parallel",
         rubocop_requires.join(" "),
-        junit_report_options,
+        formatters.join(" "),
         "--force-exclusion",
         "--config", config_file,
         pass_through_option(options, "auto-correct"),
