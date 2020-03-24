@@ -9,7 +9,7 @@ module Nucop
     desc "diff_enforced", "run RuboCop on the current diff using only the enforced cops"
     method_option "commit-spec", default: "origin/master", desc: "the commit used to determine the diff."
     method_option "auto-correct", type: :boolean, default: false, desc: "runs RuboCop with auto-correct option"
-    method_option "junit_report", type: :string, default: "", desc: "runs RuboCop with junit formatter option"
+    method_option "junit_report", type: :string, default: nil, desc: "runs RuboCop with junit formatter option"
     method_option "json", type: :string, default: nil, desc: "Output results as JSON format to the provided file"
     def diff_enforced
       invoke :diff, nil, options.merge(only: cops_to_enforce.join(","))
