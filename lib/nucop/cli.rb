@@ -5,7 +5,7 @@ RUBOCOP_DEFAULT_CONFIG_FILE = ".rubocop.yml"
 CONFIGURATION_FILEPATH = ".nucop.yml"
 
 module Nucop
-  class CLI < Thor
+  class Cli < Thor
     desc "diff_enforced", "run RuboCop on the current diff using only the enforced cops"
     method_option "commit-spec", default: "origin/master", desc: "the commit used to determine the diff."
     method_option "auto-correct", type: :boolean, default: false, desc: "runs RuboCop with auto-correct option"

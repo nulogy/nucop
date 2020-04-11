@@ -2,6 +2,8 @@
 
 ## master (unreleased)
 
+* Renamed CLI class to Cli
+
 ## 0.2.1 (2020-03-21)
 
 * Add `--json output.json` option to `diff_enforced`

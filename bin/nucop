@@ -5,4 +5,4 @@ $LOAD_PATH.unshift("#{__dir__}/../lib")
 require "nucop"
 require "nucop/cli"
 
-Nucop::CLI.start(ARGV)
+Nucop::Cli.start(ARGV)
