@@ -21,16 +21,17 @@ module Nucop
         # One test case per cop per file
         COPS.each do |cop|
           cop_offences = offences.select { |offence| offence.cop_name == cop.cop_name }
-          unless cop_offences.empty?
-            REXML::Element.new("testcase", @testsuite).tap do |f|
-              f.attributes["classname"] = file.gsub(/\.rb\Z/, "").gsub("#{Dir.pwd}/", "").tr("/", ".")
-              f.attributes["name"]      = "Rubocop: #{cop.cop_name}"
-              f.attributes["file"]      = cop.cop_name
-              cop_offences.each do |offence|
-                REXML::Element.new("failure", f).tap do |e|
-                  e.add_text("#{offence.message}\n\n")
-                  e.add_text(offence.location.to_s.sub("/usr/src/app/", ""))
-                end
+
+          next if cop_offences.empty?
+
+          REXML::Element.new("testcase", @testsuite).tap do |f|
+            f.attributes["classname"] = file.gsub(/\.rb\Z/, "").gsub("#{Dir.pwd}/", "").tr("/", ".")
+            f.attributes["name"] = "Rubocop: #{cop.cop_name}"
+            f.attributes["file"] = cop.cop_name
+            cop_offences.each do |offence|
+              REXML::Element.new("failure", f).tap do |e|
+                e.add_text("#{offence.message}\n\n")
+                e.add_text(offence.location.to_s.sub("/usr/src/app/", ""))
               end
             end
           end

@@ -250,7 +250,9 @@ module Nucop
     end
 
     def enabled_cops
-      YAML.load(`bundle exec rubocop --parallel --show-cops`).select { |_, config| config["Enabled"] }.map(&:first)
+      YAML.load(`bundle exec rubocop --parallel --show-cops`) # rubocop:disable Security/YAMLLoad
+        .select { |_, config| config["Enabled"] }
+        .map(&:first)
     end
 
     # Override Thor's options method to include Nucop's options

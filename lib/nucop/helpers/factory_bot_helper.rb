@@ -1,7 +1,7 @@
 module Nucop
   module Helpers
     module FactoryBotHelper
-      extend self
+      module_function
 
       FACTORY_BOT_METHODS = [
         :build,
