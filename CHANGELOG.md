@@ -2,6 +2,10 @@
 
 ## master (unreleased)
 
+## 0.3.1 (2020-06-21)
+
+* Latest versions of the various Rubocop gems
+
 ## 0.3.0 (2020-05-14)
 
 * Renamed CLI class to Cli

@@ -30,7 +30,7 @@ module Nucop
             data << count_match.captures.first
           end
 
-          if (name_match = line.match(/^(\w+[\/]\w+):$/))
+          if (name_match = line.match(/^(\w+\/\w+):$/))
             data << name_match.captures.first
           end
         end
