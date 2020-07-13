@@ -2,6 +2,10 @@
 
 ## master (unreleased)
 
+## 0.3.2 (2020-07-13)
+
+* Latest versions of the various Rubocop gems
+
 ## 0.3.1 (2020-06-21)
 
 * Latest versions of the various Rubocop gems

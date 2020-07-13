@@ -16,6 +16,9 @@ Layout/SpaceAroundMethodCallOperator:
 Lint/DeprecatedOpenSSLConstant:
   Enabled: true
 
+Lint/DuplicateElsifCondition:
+  Enabled: true
+
 Lint/MixedRegexpCaptureTypes:
   Enabled: true
 
@@ -27,6 +30,18 @@ Lint/StructNewOverride:
 
 Metrics:
   Enabled: false
+
+Style/AccessorGrouping:
+  Enabled: true
+
+Style/ArrayCoercion:
+  Enabled: true
+
+Style/BisectedAttrAccessor:
+  Enabled: true
+
+Style/CaseLikeIf:
+  Enabled: true
 
 Style/ExponentialNotation:
   Enabled: true
@@ -40,7 +55,13 @@ Style/ExpandPathArguments:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+Style/HashAsLastArrayItem:
+  Enabled: true
+
 Style/HashEachMethods:
+  Enabled: true
+
+Style/HashLikeCase:
   Enabled: true
 
 Style/HashTransformKeys:
@@ -57,6 +78,15 @@ Style/IfUnlessModifier:
 
 Style/MutableConstant:
   Enabled: false
+
+Style/RedundantAssignment:
+  Enabled: true
+
+Style/RedundantFetchBlock:
+  Enabled: true
+
+Style/RedundantFileExtensionInRequire:
+  Enabled: true
 
 Style/RedundantRegexpCharacterClass:
   Enabled: true
