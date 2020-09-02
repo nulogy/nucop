@@ -1,8 +1,11 @@
-Layout/EmptyLineAfterGuardClause:
+AllCops:
+  NewCops: enable
+
+Gemspec/RequiredRubyVersion:
   Enabled: false
 
-Layout/EmptyLinesAroundAttributeAccessor:
-  Enabled: true
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
 
 Layout/LineLength:
   Enabled: false
@@ -10,41 +13,8 @@ Layout/LineLength:
 Layout/MultilineMethodCallIndentation:
   Enabled: false
 
-Layout/SpaceAroundMethodCallOperator:
-  Enabled: true
-
-Lint/DeprecatedOpenSSLConstant:
-  Enabled: true
-
-Lint/DuplicateElsifCondition:
-  Enabled: true
-
-Lint/MixedRegexpCaptureTypes:
-  Enabled: true
-
-Lint/RaiseException:
-  Enabled: true
-
-Lint/StructNewOverride:
-  Enabled: true
-
 Metrics:
   Enabled: false
-
-Style/AccessorGrouping:
-  Enabled: true
-
-Style/ArrayCoercion:
-  Enabled: true
-
-Style/BisectedAttrAccessor:
-  Enabled: true
-
-Style/CaseLikeIf:
-  Enabled: true
-
-Style/ExponentialNotation:
-  Enabled: true
 
 Style/Documentation:
   Enabled: false
@@ -52,22 +22,13 @@ Style/Documentation:
 Style/ExpandPathArguments:
   Enabled: false
 
+Style/ExplicitBlockArgument:
+  Enabled: false
+
 Style/FrozenStringLiteralComment:
   Enabled: false
 
 Style/HashAsLastArrayItem:
-  Enabled: true
-
-Style/HashEachMethods:
-  Enabled: true
-
-Style/HashLikeCase:
-  Enabled: true
-
-Style/HashTransformKeys:
-  Enabled: true
-
-Style/HashTransformValues:
   Enabled: true
 
 Style/Lambda:
@@ -79,26 +40,11 @@ Style/IfUnlessModifier:
 Style/MutableConstant:
   Enabled: false
 
-Style/RedundantAssignment:
-  Enabled: true
-
-Style/RedundantFetchBlock:
-  Enabled: true
-
-Style/RedundantFileExtensionInRequire:
-  Enabled: true
-
-Style/RedundantRegexpCharacterClass:
-  Enabled: true
-
-Style/RedundantRegexpEscape:
-  Enabled: true
+Style/OptionalBooleanParameter:
+  Enabled: false
 
 Style/RegexpLiteral:
   Enabled: false
-
-Style/SlicingWithRange:
-  Enabled: true
 
 Style/StringLiterals:
   Enabled: true
