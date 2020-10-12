@@ -26,9 +26,9 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "git_diff_parser", "3.2"
-  spec.add_dependency "rubocop", "0.90.0"
-  spec.add_dependency "rubocop-performance", "1.7.1"
-  spec.add_dependency "rubocop-rails", "2.7.1"
+  spec.add_dependency "rubocop", "0.93.1"
+  spec.add_dependency "rubocop-performance", "1.8.1"
+  spec.add_dependency "rubocop-rails", "2.8.1"
   spec.add_dependency "rubocop-rspec", "1.43.2"
   spec.add_dependency "ruby-progressbar", "~> 1.10"
 
