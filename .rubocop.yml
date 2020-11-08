@@ -16,6 +16,9 @@ Layout/MultilineMethodCallIndentation:
 Metrics:
   Enabled: false
 
+Naming/MemoizedInstanceVariableName:
+  EnforcedStyleForLeadingUnderscores: required
+
 Style/Documentation:
   Enabled: false
 

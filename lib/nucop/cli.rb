@@ -158,7 +158,7 @@ module Nucop
     end
 
     def enforced_cops
-      @enforced_cops ||= YAML.load_file(options[:enforced_cops_file])
+      @_enforced_cops ||= YAML.load_file(options[:enforced_cops_file])
     end
 
     def capture_std_out(command, error_message = nil, stdin_data = nil)
