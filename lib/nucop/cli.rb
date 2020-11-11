@@ -7,7 +7,7 @@ CONFIGURATION_FILEPATH = ".nucop.yml"
 module Nucop
   class Cli < Thor
     desc "diff_enforced", "run RuboCop on the current diff using only the enforced cops"
-    method_option "commit-spec", default: "origin/master", desc: "the commit used to determine the diff."
+    method_option "commit-spec", default: "origin/main", desc: "the commit used to determine the diff."
     method_option "auto-correct", type: :boolean, default: false, desc: "runs RuboCop with auto-correct option"
     method_option "junit_report", type: :string, default: nil, desc: "runs RuboCop with junit formatter option"
     method_option "json", type: :string, default: nil, desc: "Output results as JSON format to the provided file"
@@ -16,7 +16,7 @@ module Nucop
     end
 
     desc "diff", "run RuboCop on the current diff"
-    method_option "commit-spec", default: "origin/master", desc: "the commit used to determine the diff."
+    method_option "commit-spec", default: "origin/main", desc: "the commit used to determine the diff."
     method_option "only", desc: "run only specified cop(s) and/or cops in the specified departments"
     method_option "auto-correct", type: :boolean, default: false, desc: "runs RuboCop with auto-correct option"
     method_option "ignore", type: :boolean, default: true, desc: "ignores files specified in #{options[:diffignore_file]}"
@@ -106,7 +106,7 @@ module Nucop
     end
 
     desc "modified_lines", "display RuboCop violations for ONLY modified lines"
-    method_option "commit-spec", default: "master", desc: "the commit used to determine the diff."
+    method_option "commit-spec", default: "main", desc: "the commit used to determine the diff."
     def modified_lines
       diff_files, diff_status = Open3.capture2("git diff #{options[:'commit-spec']} --diff-filter=d --name-only | grep \"\\.rb$\"")
 
