@@ -29,7 +29,7 @@ module Nucop
       private
 
       def populate_history_from_git
-        commit_spec = ENV["RUBOCOP_COMMIT_SPEC"] || "master"
+        commit_spec = ENV["RUBOCOP_COMMIT_SPEC"] || "main"
 
         diff = `git --no-pager diff #{commit_spec}`
 

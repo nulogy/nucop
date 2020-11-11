@@ -2,6 +2,10 @@
 
 ## master (unreleased)
 
+## 0.4.1 (2020-11-10)
+
+* Rename the master branch to main for OpsCore
+
 ## 0.4.0 (2020-11-08)
 
 * Rubocop 1.x released
