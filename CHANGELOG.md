@@ -2,6 +2,10 @@
 
 ## master (unreleased)
 
+## 0.4.2 (2020-10-24)
+
+* Latest versions of the various Rubocop gems
+
 ## 0.4.1 (2020-11-10)
 
 * Rename the master branch to main for OpsCore
