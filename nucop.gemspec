@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "git_diff_parser", "3.2"
-  spec.add_dependency "rubocop", "1.4.1"
+  spec.add_dependency "rubocop", "1.4.2"
   spec.add_dependency "rubocop-performance", "1.9.0"
   spec.add_dependency "rubocop-rails", "2.8.1"
   spec.add_dependency "rubocop-rspec", "2.0.0"
