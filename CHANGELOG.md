@@ -2,9 +2,13 @@
 
 ## master (unreleased)
 
-## 0.4.3 (2020-10-25)
+## 0.4.4 (2020-10-25)
 
 * Latest versions of the various Rubocop gems
+
+## 0.4.3 (2020-10-25)
+
+* Yanked
 
 ## 0.4.2 (2020-10-24)
 
