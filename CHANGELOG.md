@@ -2,6 +2,11 @@
 
 ## master (unreleased)
 
+## 0.4.5 (2021-01-02)
+
+* Add the rubocop-rake extension
+* Latest versions of the various Rubocop gems
+
 ## 0.4.4 (2020-12-11)
 
 * Latest versions of the various Rubocop gems
