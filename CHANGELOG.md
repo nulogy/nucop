@@ -2,6 +2,11 @@
 
 ## master (unreleased)
 
+## 0.4.7 (2021-01-31)
+
+* Latest versions of the various Rubocop gems
+* Loosen dependencies on the the rubocop gems
+
 ## 0.4.6 (2021-01-02)
 
 * Loosen dependencies on the the rubocop gems
