@@ -25,14 +25,14 @@ Gem::Specification.new do |spec|
   spec.test_files = Dir["spec/**/*"]
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "git_diff_parser", "~> 3.2"
-  spec.add_dependency "rubocop", "~> 1.9"
-  spec.add_dependency "rubocop-performance", "~> 1.9"
-  spec.add_dependency "rubocop-rails", "~> 2.9"
-  spec.add_dependency "rubocop-rake", "~> 0.5"
-  spec.add_dependency "rubocop-rspec", "~> 2.1"
-  spec.add_dependency "ruby-progressbar", "~> 1.10"
+  spec.add_dependency "git_diff_parser", "~> 4.0"
+  spec.add_dependency "rubocop", "~> 1.23"
+  spec.add_dependency "rubocop-performance", "~> 1.12"
+  spec.add_dependency "rubocop-rails", "~> 2.12"
+  spec.add_dependency "rubocop-rake", "~> 0.6"
+  spec.add_dependency "rubocop-rspec", "~> 2.6"
+  spec.add_dependency "ruby-progressbar", "~> 1.11"
 
   spec.add_development_dependency "rake", "~> 13.0"
-  spec.add_development_dependency "rspec", "~> 3.9"
+  spec.add_development_dependency "rspec", "~> 3.10"
 end
