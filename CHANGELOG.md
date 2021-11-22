@@ -2,6 +2,11 @@
 
 ## master (unreleased)
 
+## 0.4.8 (2021-11-22)
+
+* Latest versions of the git_diff_parser gem
+* Latest versions of the various Rubocop gems
+
 ## 0.4.7 (2021-01-31)
 
 * Latest versions of the various Rubocop gems
