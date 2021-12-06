@@ -2,6 +2,10 @@
 
 ## master (unreleased)
 
+## 0.5.0 (2021-12-06)
+
+* Include the rubocop-graphql gem
+
 ## 0.4.8 (2021-11-22)
 
 * Latest versions of the git_diff_parser gem
