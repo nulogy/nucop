@@ -212,7 +212,11 @@ module Nucop
         "--exclude-limit #{options[:"exclude-limit"]}",
         "--require rubocop-graphql",
         "--require rubocop-performance",
-        "--require rubocop-rails"
+        "--require rubocop-rails",
+        "--require rubocop-rake",
+        "--require rubocop-rspec",
+        "--require rubocop-rubycw",
+        "--require rubocop-thread_safety"
       ]
 
       rubocop_command = "DISABLE_SPRING=1 bundle exec rubocop #{rubocop_options.join(' ')}"
