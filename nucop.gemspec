@@ -22,7 +22,6 @@ Gem::Specification.new do |spec|
   spec.bindir = "bin"
   spec.executables = "nucop"
   spec.files = Dir["lib/**/*"]
-  spec.test_files = Dir["spec/**/*"]
   spec.require_paths = ["lib"]
 
   spec.add_dependency "git_diff_parser", "~> 4.0"

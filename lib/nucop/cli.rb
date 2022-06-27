@@ -108,7 +108,7 @@ module Nucop
     desc "modified_lines", "display RuboCop violations for ONLY modified lines"
     method_option "commit-spec", default: "main", desc: "the commit used to determine the diff."
     def modified_lines
-      diff_files, diff_status = Open3.capture2("git diff #{options[:'commit-spec']} --diff-filter=d --name-only | grep \"\\.rb$\"")
+      diff_files, diff_status = Open3.capture2("git diff #{options[:"commit-spec"]} --diff-filter=d --name-only | grep \"\\.rb$\"")
 
       exit 1 unless diff_status.exitstatus.zero?
 
@@ -209,8 +209,8 @@ module Nucop
       rubocop_options = [
         "--auto-gen-config",
         "--config #{options[:rubocop_todo_config_file]}",
-        "--exclude-limit #{options[:'exclude-limit']}",
-        "--require rubocop-rspec",
+        "--exclude-limit #{options[:"exclude-limit"]}",
+        "--require rubocop-graphql",
         "--require rubocop-performance",
         "--require rubocop-rails"
       ]
@@ -234,9 +234,7 @@ module Nucop
       end
 
       if current_enforced_cops.cop_added?
-        File.open(options[:enforced_cops_file], "w+") do |f|
-          f.write(current_enforced_cops.to_a.sort.to_yaml)
-        end
+        File.write(options[:enforced_cops_file], current_enforced_cops.to_a.sort.to_yaml)
         puts "Updated '#{options[:enforced_cops_file]}'!"
       else
         puts "No new cops are clear of violations"
