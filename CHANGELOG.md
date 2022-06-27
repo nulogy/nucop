@@ -2,6 +2,12 @@
 
 ## master (unreleased)
 
+## 0.6.0 (2022-06-27)
+
+* Include the rubocop-rubycw gem
+* Include the rubocop-thread_safety gem
+* Latest versions of the various Rubocop gems
+
 ## 0.5.0 (2021-12-06)
 
 * Include the rubocop-graphql gem
