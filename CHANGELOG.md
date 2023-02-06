@@ -2,6 +2,8 @@
 
 ## master (unreleased)
 
+* Add new `Nucop/NoHtmlSafe` cop.
+
 ## 0.6.0 (2022-06-27)
 
 * Include the rubocop-rubycw gem
