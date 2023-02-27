@@ -2,6 +2,10 @@
 
 ## master (unreleased)
 
+## 0.7.0 (2023-02-27)
+
+* Latest versions of the various Rubocop gems
+
 ## 0.6.0 (2022-06-27)
 
 * Include the rubocop-rubycw gem
