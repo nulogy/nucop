@@ -8,7 +8,9 @@ module Nucop
   class Cli < Thor
     desc "diff_enforced", "run RuboCop on the current diff using only the enforced cops"
     method_option "commit-spec", default: "origin/main", desc: "the commit used to determine the diff."
-    method_option "auto-correct", type: :boolean, default: false, desc: "runs RuboCop with auto-correct option"
+    method_option "auto-correct", type: :boolean, default: false, desc: "runs RuboCop with auto-correct option (deprecated)"
+    method_option "autocorrect", type: :boolean, default: false, desc: "runs RuboCop with autocorrect option"
+    method_option "autocorrect-all", type: :boolean, default: false, desc: "runs RuboCop with autocorrect-all option"
     method_option "junit_report", type: :string, default: nil, desc: "runs RuboCop with junit formatter option"
     method_option "json", type: :string, default: nil, desc: "Output results as JSON format to the provided file"
     def diff_enforced
@@ -18,7 +20,9 @@ module Nucop
     desc "diff", "run RuboCop on the current diff"
     method_option "commit-spec", default: "origin/main", desc: "the commit used to determine the diff."
     method_option "only", desc: "run only specified cop(s) and/or cops in the specified departments"
-    method_option "auto-correct", type: :boolean, default: false, desc: "runs RuboCop with auto-correct option"
+    method_option "auto-correct", type: :boolean, default: false, desc: "runs RuboCop with auto-correct option (deprecated)"
+    method_option "autocorrect", type: :boolean, default: false, desc: "runs RuboCop with autocorrect option"
+    method_option "autocorrect-all", type: :boolean, default: false, desc: "runs RuboCop with autocorrect-all option"
     method_option "ignore", type: :boolean, default: true, desc: "ignores files specified in #{options[:diffignore_file]}"
     method_option "added-only", type: :boolean, default: false, desc: "runs RuboCop only on files that have been added (not on files that have been modified)"
     method_option "exit", type: :boolean, default: true, desc: "disable to prevent task from exiting. Used by other Thor tasks when invoking this task, to prevent parent task from exiting"
@@ -62,7 +66,9 @@ module Nucop
 
     desc "rubocop", "run RuboCop on files provided"
     method_option "only", desc: "run only specified cop(s) and/or cops in the specified departments"
-    method_option "auto-correct", type: :boolean, default: false, desc: "runs RuboCop with auto-correct option"
+    method_option "auto-correct", type: :boolean, default: false, desc: "runs RuboCop with auto-correct option (deprecated)"
+    method_option "autocorrect", type: :boolean, default: false, desc: "runs RuboCop with autocorrect option"
+    method_option "autocorrect-all", type: :boolean, default: false, desc: "runs RuboCop with autocorrect-all option"
     method_option "exclude-backlog", type: :boolean, default: false, desc: "when true, uses config which excludes violations in the RuboCop backlog"
     def rubocop(files = nil)
       print_cops_being_run(options[:only])
@@ -86,6 +92,8 @@ module Nucop
         "--force-exclusion",
         "--config", config_file,
         pass_through_option(options, "auto-correct"),
+        pass_through_option(options, "autocorrect"),
+        pass_through_option(options, "autocorrect-all"),
         pass_through_flag(options, "only"),
         files
       ].join(" ")
