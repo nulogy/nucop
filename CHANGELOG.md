@@ -1,6 +1,12 @@
 # Change log
 
-## master (unreleased)
+## main (unreleased)
+
+## 0.8.0 (2023-03-16)
+
+* Deprecate 'auto-correct' option
+* Add 'autocorrect' option
+* Add 'autocorrect-all' option
 
 ## 0.7.0 (2023-02-27)
 
