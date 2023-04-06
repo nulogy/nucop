@@ -2,6 +2,11 @@
 
 ## main (unreleased)
 
+## 0.9.0 (2023-04-06)
+
+* Add 'diff_enforced_github' command
+* Add 'diff_github' command
+
 ## 0.8.0 (2023-03-16)
 
 * Deprecate 'auto-correct' option
