@@ -1,5 +1,7 @@
 require "thor"
 require "open3"
+require "net/http"
+require "json"
 
 RUBOCOP_DEFAULT_CONFIG_FILE = ".rubocop.yml"
 CONFIGURATION_FILEPATH = ".nucop.yml"
@@ -15,6 +17,18 @@ module Nucop
     method_option "json", type: :string, default: nil, desc: "Output results as JSON format to the provided file"
     def diff_enforced
       invoke :diff, nil, options.merge(only: cops_to_enforce.join(","))
+    end
+
+    desc "diff_enforced_github", "run RuboCop on the current diff using only the enforced cops (using GitHub to find the files changed)"
+    method_option "github-authorization-token", desc: "a GitHub authorization token for the repository this script is running against"
+    method_option "commit-spec", default: "main", desc: "the commit-ish used to determine the diff."
+    method_option "auto-correct", type: :boolean, default: false, desc: "runs RuboCop with auto-correct option (deprecated)"
+    method_option "autocorrect", type: :boolean, default: false, desc: "runs RuboCop with autocorrect option"
+    method_option "autocorrect-all", type: :boolean, default: false, desc: "runs RuboCop with autocorrect-all option"
+    method_option "junit_report", type: :string, default: nil, desc: "runs RuboCop with junit formatter option"
+    method_option "json", type: :string, default: nil, desc: "Output results as JSON format to the provided file"
+    def diff_enforced_github
+      invoke :diff_github, nil, options.merge(only: cops_to_enforce.join(","))
     end
 
     desc "diff", "run RuboCop on the current diff"
@@ -43,7 +57,7 @@ module Nucop
         end
       end
 
-      if options[:ignore] && File.exist?(options[:diffignore_file]) && !File.zero?(options[:diffignore_file])
+      if options[:ignore] && File.exist?(options[:diffignore_file]) && !File.empty?(options[:diffignore_file])
         files, non_ignored_diff_status = Open3.capture2("grep -v -f #{options[:diffignore_file]}", stdin_data: files)
 
         if non_ignored_diff_status != 0
@@ -61,6 +75,77 @@ module Nucop
 
       exit 1 unless no_violations_detected
       return true unless options[:exit]
+      exit 0
+    end
+
+    desc "diff_github", "run RuboCop on the current diff (using GitHub to find the files changes)"
+    method_option "github-authorization-token", desc: "a GitHub authorization token for the repository this script is running against"
+    method_option "commit-spec", default: "main", desc: "the commit-ish used to determine the diff."
+    method_option "only", desc: "run only specified cop(s) and/or cops in the specified departments"
+    method_option "auto-correct", type: :boolean, default: false, desc: "runs RuboCop with auto-correct option (deprecated)"
+    method_option "autocorrect", type: :boolean, default: false, desc: "runs RuboCop with autocorrect option"
+    method_option "autocorrect-all", type: :boolean, default: false, desc: "runs RuboCop with autocorrect-all option"
+    method_option "ignore", type: :boolean, default: true, desc: "ignores files specified in #{options[:diffignore_file]}"
+    method_option "added-only", type: :boolean, default: false, desc: "runs RuboCop only on files that have been added (not on files that have been modified)"
+    method_option "exit", type: :boolean, default: true, desc: "disable to prevent task from exiting. Used by other Thor tasks when invoking this task, to prevent parent task from exiting"
+    def diff_github
+      puts "Running on files changed relative to '#{options[:"commit-spec"]}' (specify using the 'commit-spec' option)"
+      diff_head = capture_std_out("git rev-parse HEAD").chomp
+      diff_base = options[:"commit-spec"]
+      repository = capture_std_out("git remote get-url origin | sed 's/git@github.com://; s/.git//'").chomp
+
+      uri = URI("https://api.github.com/repos/#{repository}/compare/#{diff_base}...#{diff_head}")
+      request = Net::HTTP::Get.new(uri)
+      request["Accept"] = "application/vnd.github+json"
+      request["Authorization"] = "Bearer #{options[:"github-authorization-token"]}"
+      request["X-GitHub-Api-Version"] = "2022-11-28"
+
+      response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(request) }
+
+      if response.code != "200"
+        puts "Error fetching data from Github: #{response.code} -- #{response.body}"
+        return true unless options[:exit]
+
+        exit 0
+      end
+
+      commit_data = JSON.parse(response.body)
+
+      diff_filter = options[:"added-only"] ? proc { |status| status == "added" } : proc { |status| status != "removed" }
+      files = commit_data["files"]
+        .filter { |file_data| diff_filter.call(file_data["status"]) }
+        .pluck("filename")
+        .filter { |file_name| file_name.include?(".rb") }
+
+      if files.empty?
+        if options[:exit]
+          puts "There are no rb files present in diff. Exiting."
+          exit 0
+        else
+          puts "There are no rb files present in diff."
+          return true
+        end
+      end
+
+      if options[:ignore] && File.exist?(options[:diffignore_file]) && !File.empty?(options[:diffignore_file])
+        files, non_ignored_diff_status = Open3.capture2("grep -v -f #{options[:diffignore_file]}", stdin_data: files.join("\n"))
+
+        if non_ignored_diff_status != 0
+          if options[:exit]
+            puts "There are no non-ignored rb files present in diff. Exiting."
+            exit 0
+          else
+            puts "There are no non-ignored rb files present in diff."
+            return true
+          end
+        end
+      end
+
+      no_violations_detected = invoke :rubocop, [multi_line_to_single_line(files)], options
+
+      exit 1 unless no_violations_detected
+      return true unless options[:exit]
+
       exit 0
     end
 

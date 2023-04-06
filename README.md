@@ -38,15 +38,17 @@ Finally, several custom cops are included, which may be application/framework/ge
 
 The [nucop CLI](lib/nucop/cli.rb) provides the following commands:
 
-| Command             | Description                                                                      |
-|---------------------|----------------------------------------------------------------------------------|
-| diff_enforced       | run RuboCop on the current diff using only the enforced cops                     |
-| diff                | run RuboCop on the current diff                                                  |
-| rubocop             | run RuboCop on files provided (without backlog by default)                       |
-| regen_backlog       | update the RuboCop backlog, updating enforced cops list                          |
-| update_enforced     | update the enforced cops list with file with cops that no longer have violations |
-| modified_lines      | display RuboCop violations for ONLY modified lines                               |
-| ready_for_promotion | display the next n cops with the fewest violations                               |
+| Command              | Description                                                                                              |
+|----------------------|----------------------------------------------------------------------------------------------------------|
+| diff_enforced        | run RuboCop on the current diff using only the enforced cops                                             |
+| diff_enforced_github | run RuboCop on the current diff using only the enforced cops (uses GitHub to determine the current diff) |
+| diff                 | run RuboCop on the current diff                                                                          |
+| diff_github          | run RuboCop on the current diff (uses GitHub to determine the current diff)                              |                                                                          |
+| rubocop              | run RuboCop on files provided (without backlog by default)                                               |
+| regen_backlog        | update the RuboCop backlog, updating enforced cops list                                                  |
+| update_enforced      | update the enforced cops list with file with cops that no longer have violations                         |
+| modified_lines       | display RuboCop violations for ONLY modified lines                                                       |
+| ready_for_promotion  | display the next n cops with the fewest violations                                                       |
 
 ## Requirements
 
