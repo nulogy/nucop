@@ -2,6 +2,11 @@
 
 ## main (unreleased)
 
+## 0.10.0 (2023-05-09)
+
+* Add support for the rubocop-factory_bot gem
+* Require MFA to push to rubygems
+
 ## 0.9.0 (2023-04-06)
 
 * Add 'diff_enforced_github' command
