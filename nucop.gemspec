@@ -16,7 +16,8 @@ Gem::Specification.new do |spec|
     "homepage_uri" => "https://github.com/nulogy/nucop",
     "changelog_uri" => "https://github.com/nulogy/nucop/blob/master/CHANGELOG.md",
     "source_code_uri" => "https://github.com/nulogy/nucop",
-    "bug_tracker_uri" => "https://github.com/nulogy/nucop/issues"
+    "bug_tracker_uri" => "https://github.com/nulogy/nucop/issues",
+    "rubygems_mfa_required" => "true"
   }
 
   spec.bindir = "bin"
