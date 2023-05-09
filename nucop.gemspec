@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "git_diff_parser", "~> 4.0"
   spec.add_dependency "rubocop", "~> 1.46"
+  spec.add_dependency "rubocop-factory_bot", "~> 2.22"
   spec.add_dependency "rubocop-graphql", "~> 1.0"
   spec.add_dependency "rubocop-performance", "~> 1.16"
   spec.add_dependency "rubocop-rails", "~> 2.18"
