@@ -2,6 +2,10 @@
 
 ## main (unreleased)
 
+## 0.10.1 (2023-05-13)
+
+* Use ruby #map method instead of #pluck method to avoid dependency on ActiveSupport
+
 ## 0.10.0 (2023-05-09)
 
 * Add support for the rubocop-factory_bot gem

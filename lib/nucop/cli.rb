@@ -114,7 +114,7 @@ module Nucop
       diff_filter = options[:"added-only"] ? proc { |status| status == "added" } : proc { |status| status != "removed" }
       files = commit_data["files"]
         .filter { |file_data| diff_filter.call(file_data["status"]) }
-        .pluck("filename")
+        .map { |file_data| file_data["filename"] }
         .filter { |file_name| file_name.include?(".rb") }
 
       if files.empty?
