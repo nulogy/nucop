@@ -1,6 +1,9 @@
 AllCops:
   NewCops: enable
 
+Gemspec/DevelopmentDependencies:
+  EnforcedStyle: gemspec
+
 Gemspec/RequiredRubyVersion:
   Enabled: false
 
@@ -33,6 +36,9 @@ Style/FrozenStringLiteralComment:
 
 Style/HashAsLastArrayItem:
   Enabled: true
+
+Style/HashSyntax:
+  Enabled: false
 
 Style/Lambda:
   Enabled: false

@@ -345,7 +345,7 @@ module Nucop
     end
 
     def enabled_cops
-      YAML.load(`bundle exec rubocop --parallel --show-cops`) # rubocop:disable Security/YAMLLoad
+      YAML.safe_load(`bundle exec rubocop --parallel --show-cops`, permitted_classes: [Regexp, Symbol])
         .select { |_, config| config["Enabled"] }
         .map(&:first)
     end
