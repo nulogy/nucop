@@ -2,6 +2,10 @@
 
 ## main (unreleased)
 
+## 0.10.2 (2023-05-30)
+
+* Compatibility with Psych 4 (and therefore Ruby 3.1)
+
 ## 0.10.1 (2023-05-13)
 
 * Use ruby #map method instead of #pluck method to avoid dependency on ActiveSupport
