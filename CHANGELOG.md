@@ -2,6 +2,11 @@
 
 ## main (unreleased)
 
+## 0.10.3 (2024-01-07)
+
+* Run rubocop with the --no-server option
+* Latest versions of the various Rubocop gems
+
 ## 0.10.2 (2023-05-30)
 
 * Compatibility with Psych 4 (and therefore Ruby 3.1)
