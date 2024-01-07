@@ -171,6 +171,7 @@ module Nucop
 
       command = [
         "bundle exec rubocop",
+        "--no-server",
         "--parallel",
         rubocop_requires.join(" "),
         formatters.join(" "),
