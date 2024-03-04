@@ -9,3 +9,4 @@
 .rspec_status
 .tool-versions
 Gemfile.lock
+/.idea

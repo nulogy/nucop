@@ -2,6 +2,10 @@
 
 ## main (unreleased)
 
+## 0.10.4 (2024-03-04)
+
+* Relax Rubocop gem constraints
+
 ## 0.10.3 (2024-01-07)
 
 * Run rubocop with the --no-server option
