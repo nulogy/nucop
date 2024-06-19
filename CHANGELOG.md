@@ -2,6 +2,10 @@
 
 ## main (unreleased)
 
+## 0.11.1 (2024-06-19)
+
+* Add missing rubocop-rspec_rails gem
+
 ## 0.11.0 (2024-06-19)
 
 * Major version bump for rubocop-rspec
