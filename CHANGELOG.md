@@ -2,6 +2,11 @@
 
 ## main (unreleased)
 
+## 0.11.0 (2024-06-19)
+
+* Major version bump for rubocop-rspec
+* Latest versions of the various Rubocop gems
+
 ## 0.10.3 (2024-01-07)
 
 * Run rubocop with the --no-server option
