@@ -1,7 +1,7 @@
 # class to count the number of cops from a list of RuboCop "only" options
 # i.e. it accounts for whole "Departments"
 #
-# Examaples:
+# Examples:
 # "Style/Blah" is 1 cops
 # "Layout" may represent 70 cops
 module Nucop

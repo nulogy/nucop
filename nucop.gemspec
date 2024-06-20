@@ -15,7 +15,6 @@ Gem::Specification.new do |spec|
   spec.metadata = {
     "homepage_uri" => "https://github.com/nulogy/nucop",
     "changelog_uri" => "https://github.com/nulogy/nucop/blob/master/CHANGELOG.md",
-    "source_code_uri" => "https://github.com/nulogy/nucop",
     "bug_tracker_uri" => "https://github.com/nulogy/nucop/issues",
     "rubygems_mfa_required" => "true"
   }
@@ -24,6 +23,7 @@ Gem::Specification.new do |spec|
   spec.executables = "nucop"
   spec.files = Dir["lib/**/*"]
   spec.require_paths = ["lib"]
+  spec.required_ruby_version = '>= 3.1'
 
   spec.add_dependency "git_diff_parser", "~> 4.0"
   spec.add_dependency "rubocop", "~> 1.64"
@@ -34,6 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rubocop-rails", "~> 2.25"
   spec.add_dependency "rubocop-rake", "~> 0.6"
   spec.add_dependency "rubocop-rspec", "~> 3.0"
+  spec.add_dependency "rubocop-rspec_rails", "~> 2.30"
   spec.add_dependency "rubocop-rubycw", "~> 0.1"
   spec.add_dependency "rubocop-thread_safety", "~> 0.5"
   spec.add_dependency "ruby-progressbar", "~> 1.13"

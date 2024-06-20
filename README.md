@@ -2,7 +2,7 @@
 
 This gem contains custom cops and additional tooling for Nulogy's implementation of [RuboCop](https://github.com/rubocop-hq/rubocop).
 
-This functionaltiy is executed by the `bin/nucop` executable. If you installed the gem, it will be added to your path.
+This functionality is executed by the `bin/nucop` executable. If you installed the gem, it will be added to your path.
 
 ## Purpose
 
@@ -23,7 +23,7 @@ This is a new list of cops and/or departments that MUST not have violations.
 This is useful in CI if you do not want developers to add new `Layout/` violations, etc.
 
 Also, if `nucop regen_backlog` is used to regenerate the TODO file, any cops that had TODO violations,
-but no longer have vioations are automatically added to enforced cops list.
+but no longer have violations are automatically added to enforced cops list.
 
 2. `nucop modified_lines`
 
