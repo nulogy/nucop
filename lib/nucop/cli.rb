@@ -321,19 +321,7 @@ module Nucop
     end
 
     def rubocop_gem_requires
-      [
-        "--require rubocop",
-        "--require rubocop-capybara",
-        "--require rubocop-factory_bot",
-        "--require rubocop-graphql",
-        "--require rubocop-performance",
-        "--require rubocop-rails",
-        "--require rubocop-rake",
-        "--require rubocop-rspec",
-        "--require rubocop-rspec_rails",
-        "--require rubocop-rubycw",
-        "--require rubocop-thread_safety"
-      ]
+      Nucop::Helpers::RubocopGemDependencies.rubocop_gems.map { |rubocop_gem| "--require #{rubocop_gem}" }
     end
 
     def update_enforced_cops
