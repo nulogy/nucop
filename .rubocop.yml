@@ -5,9 +5,6 @@ AllCops:
 Gemspec/DevelopmentDependencies:
   EnforcedStyle: gemspec
 
-Gemspec/RequiredRubyVersion:
-  Enabled: false
-
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
 

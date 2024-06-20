@@ -17,7 +17,7 @@ module Nucop
   #   release_toggle_enabled?(:move_out_of_wip_autocomplete)
   #
   class ReleaseTogglesUseSymbols < ::RuboCop::Cop::Cop
-    MSG = "Use a symbol when refering to a Release Toggle's by name".freeze
+    MSG = "Use a symbol when referring to a Release Toggle's by name".freeze
 
     def_node_matcher :test_helper?, <<~PATTERN
       (send nil? {:release_toggle_enabled? :release_toggle_enabled_for_any_site?} (str _))

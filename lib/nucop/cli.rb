@@ -15,6 +15,7 @@ module Nucop
     method_option "autocorrect-all", type: :boolean, default: false, desc: "runs RuboCop with autocorrect-all option"
     method_option "junit_report", type: :string, default: nil, desc: "runs RuboCop with junit formatter option"
     method_option "json", type: :string, default: nil, desc: "Output results as JSON format to the provided file"
+
     def diff_enforced
       invoke :diff, nil, options.merge(only: cops_to_enforce.join(","))
     end
@@ -27,6 +28,7 @@ module Nucop
     method_option "autocorrect-all", type: :boolean, default: false, desc: "runs RuboCop with autocorrect-all option"
     method_option "junit_report", type: :string, default: nil, desc: "runs RuboCop with junit formatter option"
     method_option "json", type: :string, default: nil, desc: "Output results as JSON format to the provided file"
+
     def diff_enforced_github
       invoke :diff_github, nil, options.merge(only: cops_to_enforce.join(","))
     end
@@ -40,6 +42,7 @@ module Nucop
     method_option "ignore", type: :boolean, default: true, desc: "ignores files specified in #{options[:diffignore_file]}"
     method_option "added-only", type: :boolean, default: false, desc: "runs RuboCop only on files that have been added (not on files that have been modified)"
     method_option "exit", type: :boolean, default: true, desc: "disable to prevent task from exiting. Used by other Thor tasks when invoking this task, to prevent parent task from exiting"
+
     def diff
       puts "Running on files changed relative to '#{options[:"commit-spec"]}' (specify using the 'commit-spec' option)"
       diff_filter = options[:"added-only"] ? "A" : "d"
@@ -88,6 +91,7 @@ module Nucop
     method_option "ignore", type: :boolean, default: true, desc: "ignores files specified in #{options[:diffignore_file]}"
     method_option "added-only", type: :boolean, default: false, desc: "runs RuboCop only on files that have been added (not on files that have been modified)"
     method_option "exit", type: :boolean, default: true, desc: "disable to prevent task from exiting. Used by other Thor tasks when invoking this task, to prevent parent task from exiting"
+
     def diff_github
       puts "Running on files changed relative to '#{options[:"commit-spec"]}' (specify using the 'commit-spec' option)"
       diff_head = capture_std_out("git rev-parse HEAD").chomp
@@ -155,14 +159,10 @@ module Nucop
     method_option "autocorrect", type: :boolean, default: false, desc: "runs RuboCop with autocorrect option"
     method_option "autocorrect-all", type: :boolean, default: false, desc: "runs RuboCop with autocorrect-all option"
     method_option "exclude-backlog", type: :boolean, default: false, desc: "when true, uses config which excludes violations in the RuboCop backlog"
+
     def rubocop(files = nil)
       print_cops_being_run(options[:only])
       config_file = options[:"exclude-backlog"] ? RUBOCOP_DEFAULT_CONFIG_FILE : options[:rubocop_todo_config_file]
-      rubocop_requires = [
-        "--require rubocop-rspec",
-        "--require rubocop-performance",
-        "--require rubocop-rails"
-      ]
 
       formatters = []
       formatters << "--format Nucop::Formatters::JUnitFormatter --out #{options[:junit_report]}" if options[:junit_report]
@@ -173,7 +173,7 @@ module Nucop
         "bundle exec rubocop",
         "--no-server",
         "--parallel",
-        rubocop_requires.join(" "),
+        rubocop_gem_requires.join(" "),
         formatters.join(" "),
         "--force-exclusion",
         "--config", config_file,
@@ -189,18 +189,21 @@ module Nucop
 
     desc "regen_backlog", "update the RuboCop backlog, disabling offending files and excluding all cops with over 500 violating files."
     method_option "exclude-limit", type: :numeric, default: 500, desc: "Limit files listed to this limit. Passed to RuboCop"
+
     def regen_backlog
       regenerate_rubocop_todos
       update_enforced_cops
     end
 
     desc "update_enforced", "update the enforced cops list with file with cops that no longer have violations"
+
     def update_enforced
       update_enforced_cops
     end
 
     desc "modified_lines", "display RuboCop violations for ONLY modified lines"
     method_option "commit-spec", default: "main", desc: "the commit used to determine the diff."
+
     def modified_lines
       diff_files, diff_status = Open3.capture2("git diff #{options[:"commit-spec"]} --diff-filter=d --name-only | grep \"\\.rb$\"")
 
@@ -220,6 +223,7 @@ module Nucop
 
     desc "ready_for_promotion", "display the next n cops with the fewest offenses"
     method_option "n", type: :numeric, default: 1, desc: "number of cops to display"
+
     def ready_for_promotion
       finder = Helpers::NextCopForPromotion.new(options[:rubocop_todo_file])
       todo_config = YAML.load_file(options[:rubocop_todo_file])
@@ -303,17 +307,10 @@ module Nucop
       rubocop_options = [
         "--auto-gen-config",
         "--config #{options[:rubocop_todo_config_file]}",
-        "--exclude-limit #{options[:"exclude-limit"]}",
-        "--require rubocop-graphql",
-        "--require rubocop-performance",
-        "--require rubocop-rails",
-        "--require rubocop-rake",
-        "--require rubocop-rspec",
-        "--require rubocop-rubycw",
-        "--require rubocop-thread_safety"
+        "--exclude-limit #{options[:"exclude-limit"]}"
       ]
 
-      rubocop_command = "DISABLE_SPRING=1 bundle exec rubocop #{rubocop_options.join(' ')}"
+      rubocop_command = "DISABLE_SPRING=1 bundle exec rubocop #{rubocop_options.join(' ')} #{rubocop_gem_requires.join(' ')}"
 
       system(rubocop_command)
 
@@ -321,6 +318,10 @@ module Nucop
       # However, that means the next time we try to update our backlog, it will NOT include the violations recorded as todo
       # For now, we ignore any changes in our backlog config
       system("git checkout #{options[:rubocop_todo_config_file]}")
+    end
+
+    def rubocop_gem_requires
+      Nucop::Helpers::RubocopGemDependencies.rubocop_gems.map { |rubocop_gem| "--require #{rubocop_gem}" }
     end
 
     def update_enforced_cops
@@ -346,7 +347,8 @@ module Nucop
     end
 
     def enabled_cops
-      YAML.safe_load(`bundle exec rubocop --parallel --show-cops`, permitted_classes: [Regexp, Symbol])
+      YAML
+        .safe_load(`bundle exec rubocop --parallel --show-cops`, permitted_classes: [Regexp, Symbol])
         .select { |_, config| config["Enabled"] }
         .map(&:first)
     end
