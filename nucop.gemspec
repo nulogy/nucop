@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.executables = "nucop"
   spec.files = Dir["lib/**/*"]
   spec.require_paths = ["lib"]
-  spec.required_ruby_version = '>= 3.1'
+  spec.required_ruby_version = ">= 3.1"
 
   spec.add_dependency "git_diff_parser", "~> 4.0"
   spec.add_dependency "rubocop", "~> 1.64"
