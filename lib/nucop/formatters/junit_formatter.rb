@@ -5,7 +5,7 @@ module Nucop
     class JUnitFormatter < ::RuboCop::Formatter::BaseFormatter
       # This gives all cops - we really want all _enabled_ cops, but
       # that is difficult to obtain - no access to config object here.
-      COPS = RuboCop::Cop::Cop.all
+      COPS = RuboCop::Cop::Registry.all
 
       def started(_target_file)
         @document = REXML::Document.new.tap do |d|
