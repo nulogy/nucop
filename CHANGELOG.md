@@ -2,6 +2,10 @@
 
 ## main (unreleased)
 
+## 0.11.2 (2024-07-11)
+
+* Address deprecation warning
+
 ## 0.11.1 (2024-06-20)
 
 * Add missing `rubocop-rails_rspec` dependency
