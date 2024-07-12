@@ -353,12 +353,12 @@ module Nucop
         .map(&:first)
     end
 
-    # Override Thor's options method to include Nucop's options
-    def options
-      return @_options if defined?(@_options)
+    # Override Thor's method_options method to include Nucop's options
+    def method_options
+      return @_method_options if defined?(@_method_options)
 
       original_options = super
-      @_options = Thor::CoreExt::HashWithIndifferentAccess.new(
+      @_method_options = Thor::CoreExt::HashWithIndifferentAccess.new(
         configuration_options.merge(original_options)
       )
     end
