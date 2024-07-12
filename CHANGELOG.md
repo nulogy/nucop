@@ -2,6 +2,10 @@
 
 ## main (unreleased)
 
+## 0.11.3 (2024-07-12)
+
+* Override the #method_options method to tweak Thor behaviour
+
 ## 0.11.2 (2024-07-11)
 
 * Address deprecation warning
