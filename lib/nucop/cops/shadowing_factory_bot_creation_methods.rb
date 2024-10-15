@@ -15,7 +15,7 @@ module Nucop
   #   def create_transfer_pallet(args)
   #     ...
   #   end
-  class ShadowingFactoryBotCreationMethods < ::RuboCop::Cop::Cop
+  class ShadowingFactoryBotCreationMethods < ::RuboCop::Cop::Base
     include Helpers::FilePathHelper
 
     MSG = "Method `%<method>s` shadows a FactoryBot method. Please rename it to be more specific."
