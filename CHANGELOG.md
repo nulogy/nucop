@@ -2,6 +2,11 @@
 
 ## main (unreleased)
 
+## 0.12.0 (2024-10-15)
+
+* Require at least Ruby 3.2
+* Latest versions of the various Rubocop gems
+
 ## 0.11.3 (2024-07-12)
 
 * Override the #method_options method to tweak Thor behaviour
