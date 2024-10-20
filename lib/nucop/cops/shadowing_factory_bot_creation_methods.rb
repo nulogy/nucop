@@ -26,7 +26,7 @@ module Nucop
 
     def on_def(node)
       factory_bot_methods(node) do |method|
-        add_offense(node, location: :expression, message: format(MSG, method: method))
+        add_offense(node, message: format(MSG, method: method))
       end
     end
 

@@ -27,7 +27,7 @@ module Nucop
 
     def on_send(node)
       ordered_hash_usage(node) do
-        add_offense(node, location: :expression, message: MSG) do |corrector|
+        add_offense(node, message: MSG) do |corrector|
           corrector.replace(node.source_range, "{}")
         end
       end
