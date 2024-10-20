@@ -1,5 +1,3 @@
-require "set"
-
 module Nucop
   module Helpers
     class CopSet

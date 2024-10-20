@@ -15,7 +15,7 @@ module Nucop
   #     # ...
   #   end
   #
-  class NoWipSpecs < ::RuboCop::Cop::Cop
+  class NoWipSpecs < ::RuboCop::Cop::Base
     MSG = "WIP spec found".freeze
 
     def_node_matcher :wip_it_specs_present?, <<~PATTERN

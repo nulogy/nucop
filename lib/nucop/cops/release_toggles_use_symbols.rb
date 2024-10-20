@@ -16,7 +16,9 @@ module Nucop
   #
   #   release_toggle_enabled?(:move_out_of_wip_autocomplete)
   #
-  class ReleaseTogglesUseSymbols < ::RuboCop::Cop::Cop
+  class ReleaseTogglesUseSymbols < ::RuboCop::Cop::Base
+    extend RuboCop::Cop::AutoCorrector
+
     MSG = "Use a symbol when referring to a Release Toggle's by name".freeze
 
     def_node_matcher :test_helper?, <<~PATTERN
@@ -29,14 +31,12 @@ module Nucop
 
     def on_send(node)
       test_helper?(node) { add_offense(node, message: MSG, location: node.children[2].loc.expression) }
-      release_toggles_public_api_method?(node) { add_offense(node, message: MSG, location: node.children[2].loc.expression) }
-    end
+      release_toggles_public_api_method?(node) do
+        add_offense(node, message: MSG, location: node.children[2].loc.expression) do |corrector|
+          toggle_name = node.children[2].value
 
-    def autocorrect(node)
-      ->(corrector) do
-        toggle_name = node.children[2].value
-
-        corrector.replace(node.children[2].source_range, ":#{toggle_name}")
+          corrector.replace(node.children[2].source_range, ":#{toggle_name}")
+        end
       end
     end
   end

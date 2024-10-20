@@ -15,7 +15,7 @@ module Nucop
   #     # ...
   #   end
   #
-  class NoCoreMethodOverrides < ::RuboCop::Cop::Cop
+  class NoCoreMethodOverrides < ::RuboCop::Cop::Base
     MSG = "Core method overridden".freeze
 
     def_node_matcher :core_methods, <<~PATTERN

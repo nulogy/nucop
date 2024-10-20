@@ -23,22 +23,23 @@ Gem::Specification.new do |spec|
   spec.executables = "nucop"
   spec.files = Dir["lib/**/*"]
   spec.require_paths = ["lib"]
-  spec.required_ruby_version = ">= 3.1"
+  spec.required_ruby_version = ">= 3.2"
 
   # Whenever this list of rubocop gems changes, update the Nucop::Helpers::RubocopGemDependencies module.
-  spec.add_dependency "rubocop", "~> 1.64"
+  spec.add_dependency "rubocop", "~> 1.67"
   spec.add_dependency "rubocop-capybara", "~> 2.21"
   spec.add_dependency "rubocop-factory_bot", "~> 2.26"
   spec.add_dependency "rubocop-graphql", "~> 1.5"
-  spec.add_dependency "rubocop-performance", "~> 1.21"
-  spec.add_dependency "rubocop-rails", "~> 2.25"
+  spec.add_dependency "rubocop-performance", "~> 1.22"
+  spec.add_dependency "rubocop-rails", "~> 2.26"
   spec.add_dependency "rubocop-rake", "~> 0.6"
-  spec.add_dependency "rubocop-rspec", "~> 3.0"
+  spec.add_dependency "rubocop-rspec", "~> 3.1"
   spec.add_dependency "rubocop-rspec_rails", "~> 2.30"
   spec.add_dependency "rubocop-rubycw", "~> 0.1"
   spec.add_dependency "rubocop-thread_safety", "~> 0.5"
 
   spec.add_dependency "git_diff_parser", "~> 4.0"
+  spec.add_dependency "rexml", "~> 3.3"
   spec.add_dependency "ruby-progressbar", "~> 1.13"
 
   spec.add_development_dependency "rake", "~> 13.2"

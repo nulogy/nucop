@@ -15,7 +15,8 @@ module Nucop
   #
   #   job = create(:job, project: project)
   #   build(:project, code: "Super Project")
-  class ExplicitFactoryBotUsage < ::RuboCop::Cop::Cop
+  class ExplicitFactoryBotUsage < ::RuboCop::Cop::Base
+    extend RuboCop::Cop::AutoCorrector
     include Helpers::FilePathHelper
 
     MSG = "Do not explicitly use `%<constant>s` to build objects. The factory method `%<method>s` is globally available."
@@ -26,18 +27,14 @@ module Nucop
 
     def on_send(node)
       explicit_factory_bot_usage(node) do
-        add_offense(node, location: :expression, message: format(MSG, constant: node.receiver.const_name, method: node.method_name))
+        add_offense(node, location: :expression, message: format(MSG, constant: node.receiver.const_name, method: node.method_name)) do |corrector|
+          corrector.replace(node.source_range, node.source.sub(/(?:FactoryGirl|FactoryBot)[.]/, ""))
+        end
       end
     end
 
     def relevant_file?(file)
       acceptance_or_spec_file?(file) && super
-    end
-
-    def autocorrect(node)
-      ->(corrector) do
-        corrector.replace(node.source_range, node.source.sub(/(?:FactoryGirl|FactoryBot)[.]/, ""))
-      end
     end
   end
 end

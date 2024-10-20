@@ -16,7 +16,9 @@ module Nucop
   #   # good
   #
   #   hash = {}
-  class OrderedHash < ::RuboCop::Cop::Cop
+  class OrderedHash < ::RuboCop::Cop::Base
+    extend RuboCop::Cop::AutoCorrector
+
     MSG = "Ruby hashes after 1.9 enumerate keys in order of insertion"
 
     def_node_matcher :ordered_hash_usage, <<~PATTERN
@@ -25,17 +27,9 @@ module Nucop
 
     def on_send(node)
       ordered_hash_usage(node) do
-        add_offense(
-          node,
-          location: :expression,
-          message: MSG
-        )
-      end
-    end
-
-    def autocorrect(node)
-      ->(corrector) do
-        corrector.replace(node.source_range, "{}")
+        add_offense(node, location: :expression, message: MSG) do |corrector|
+          corrector.replace(node.source_range, "{}")
+        end
       end
     end
   end
