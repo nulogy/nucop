@@ -2,6 +2,14 @@
 
 ## main (unreleased)
 
+## 0.12.1 (2024-10-20)
+
+* Relax rubocop dependency
+
+### Fixed
+
+* Update the nucop cops to accommodate changes to the rubocop API
+
 ## 0.12.0 (2024-10-15)
 
 * Require at least Ruby 3.2
