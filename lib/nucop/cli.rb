@@ -12,13 +12,12 @@ module Nucop
       private
 
       def load_custom_options
-        @_load_custom_options ||= begin
+        @_load_custom_options ||=
           if File.exist?(CONFIGURATION_FILEPATH)
             default_configuration.merge(YAML.load_file(CONFIGURATION_FILEPATH))
           else
             default_configuration
           end
-        end
       end
 
       def default_configuration
@@ -240,6 +239,7 @@ module Nucop
       command = [
         "bundle exec rubocop",
         "--parallel",
+        "--no-server",
         "--format Nucop::Formatters::GitDiffFormatter",
         "--config #{options[:rubocop_todo_config_file]}",
         multi_line_to_single_line(diff_files).to_s
@@ -265,7 +265,7 @@ module Nucop
 
         files = todo_config.fetch(todo.name, {}).fetch("Exclude", [])
 
-        system("bundle exec rubocop --parallel --config #{options[:rubocop_todo_config_file]} --only #{todo.name} #{files.join(' ')}")
+        system("bundle exec rubocop --no-server --parallel --config #{options[:rubocop_todo_config_file]} --only #{todo.name} #{files.join(' ')}")
         puts("*" * 100) if options["n"] > 1
         puts
       end
@@ -335,7 +335,8 @@ module Nucop
       rubocop_options = [
         "--auto-gen-config",
         "--config #{options[:rubocop_todo_config_file]}",
-        "--exclude-limit #{options[:"exclude-limit"]}"
+        "--exclude-limit #{options[:"exclude-limit"]}",
+        "--no-server"
       ]
 
       rubocop_command = "DISABLE_SPRING=1 bundle exec rubocop #{rubocop_options.join(' ')} #{rubocop_gem_requires.join(' ')}"
@@ -376,7 +377,7 @@ module Nucop
 
     def enabled_cops
       @_enabled_cops ||= YAML
-        .safe_load(`bundle exec rubocop --parallel --show-cops`, permitted_classes: [Regexp, Symbol])
+        .safe_load(`bundle exec rubocop --no-server --parallel --show-cops`, permitted_classes: [Regexp, Symbol])
         .select { |_, config| config["Enabled"] }
         .map(&:first)
     end
