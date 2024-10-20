@@ -27,7 +27,7 @@ module Nucop
 
     def on_send(node)
       explicit_factory_bot_usage(node) do
-        add_offense(node, location: :expression, message: format(MSG, constant: node.receiver.const_name, method: node.method_name)) do |corrector|
+        add_offense(node, message: format(MSG, constant: node.receiver.const_name, method: node.method_name)) do |corrector|
           corrector.replace(node.source_range, node.source.sub(/(?:FactoryGirl|FactoryBot)[.]/, ""))
         end
       end

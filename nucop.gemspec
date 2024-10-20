@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 3.2"
 
   # Whenever this list of rubocop gems changes, update the Nucop::Helpers::RubocopGemDependencies module.
-  spec.add_dependency "rubocop", "~> 1.67"
+  spec.add_dependency "rubocop", "~> 1.66"
   spec.add_dependency "rubocop-capybara", "~> 2.21"
   spec.add_dependency "rubocop-factory_bot", "~> 2.26"
   spec.add_dependency "rubocop-graphql", "~> 1.5"
