@@ -2,6 +2,12 @@
 
 ## main (unreleased)
 
+## 0.12.2 (2024-10-20)
+
+### Fixed
+
+* Always launch rubocop with the --no-server option
+
 ## 0.12.1 (2024-10-20)
 
 * Relax rubocop dependency
