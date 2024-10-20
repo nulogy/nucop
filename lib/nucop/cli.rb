@@ -8,6 +8,34 @@ CONFIGURATION_FILEPATH = ".nucop.yml"
 
 module Nucop
   class Cli < Thor
+    class << self
+      private
+
+      def load_custom_options
+        @_load_custom_options ||= begin
+          if File.exist?(CONFIGURATION_FILEPATH)
+            default_configuration.merge(YAML.load_file(CONFIGURATION_FILEPATH))
+          else
+            default_configuration
+          end
+        end
+      end
+
+      def default_configuration
+        {
+          enforced_cops_file: ".rubocop.enforced.yml",
+          rubocop_todo_file: ".rubocop_todo.yml",
+          rubocop_todo_config_file: ".rubocop.backlog.yml",
+          diffignore_file: ".nucop_diffignore"
+        }
+      end
+    end
+
+    class_option :diffignore_file, default: load_custom_options[:diffignore_file]
+    class_option :enforced_cops_file, default: load_custom_options[:enforced_cops_file]
+    class_option :rubocop_todo_config_file, default: load_custom_options[:rubocop_todo_config_file]
+    class_option :rubocop_todo_file, default: load_custom_options[:rubocop_todo_file]
+
     desc "diff_enforced", "run RuboCop on the current diff using only the enforced cops"
     method_option "commit-spec", default: "origin/main", desc: "the commit used to determine the diff."
     method_option "auto-correct", type: :boolean, default: false, desc: "runs RuboCop with auto-correct option (deprecated)"
@@ -351,33 +379,6 @@ module Nucop
         .safe_load(`bundle exec rubocop --parallel --show-cops`, permitted_classes: [Regexp, Symbol])
         .select { |_, config| config["Enabled"] }
         .map(&:first)
-    end
-
-    # Override Thor's method_options method to include Nucop's options
-    def method_options
-      return @_method_options if defined?(@_method_options)
-
-      original_options = super
-      @_method_options = Thor::CoreExt::HashWithIndifferentAccess.new(
-        configuration_options.merge(original_options)
-      )
-    end
-
-    def configuration_options
-      if File.exist?(CONFIGURATION_FILEPATH)
-        default_configuration.merge(YAML.load_file(CONFIGURATION_FILEPATH))
-      else
-        default_configuration
-      end
-    end
-
-    def default_configuration
-      {
-        enforced_cops_file: ".rubocop.enforced.yml",
-        rubocop_todo_file: ".rubocop_todo.yml",
-        rubocop_todo_config_file: ".rubocop.backlog.yml",
-        diffignore_file: ".nucop_diffignore"
-      }
     end
   end
 end
