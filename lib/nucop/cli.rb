@@ -14,7 +14,7 @@ module Nucop
       def load_custom_options
         @_load_custom_options ||=
           if File.exist?(CONFIGURATION_FILEPATH)
-            default_configuration.merge(YAML.load_file(CONFIGURATION_FILEPATH))
+            default_configuration.merge(YAML.load_file(CONFIGURATION_FILEPATH, symbolize_names: true))
           else
             default_configuration
           end
