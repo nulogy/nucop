@@ -2,6 +2,12 @@
 
 ## main (unreleased)
 
+## 0.12.3 (2024-10-21)
+
+### Fixed
+
+* Use symbols for class option keys
+
 ## 0.12.2 (2024-10-20)
 
 ### Fixed

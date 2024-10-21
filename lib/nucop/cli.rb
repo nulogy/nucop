@@ -14,7 +14,7 @@ module Nucop
       def load_custom_options
         @_load_custom_options ||=
           if File.exist?(CONFIGURATION_FILEPATH)
-            default_configuration.merge(YAML.load_file(CONFIGURATION_FILEPATH))
+            default_configuration.merge(YAML.load_file(CONFIGURATION_FILEPATH, symbolize_names: true))
           else
             default_configuration
           end
@@ -147,6 +147,7 @@ module Nucop
         .filter { |file_data| diff_filter.call(file_data["status"]) }
         .map { |file_data| file_data["filename"] }
         .filter { |file_name| file_name.include?(".rb") }
+        .join("\n")
 
       if files.empty?
         if options[:exit]
@@ -159,7 +160,7 @@ module Nucop
       end
 
       if options[:ignore] && File.exist?(options[:diffignore_file]) && !File.empty?(options[:diffignore_file])
-        files, non_ignored_diff_status = Open3.capture2("grep -v -f #{options[:diffignore_file]}", stdin_data: files.join("\n"))
+        files, non_ignored_diff_status = Open3.capture2("grep -v -f #{options[:diffignore_file]}", stdin_data: files)
 
         if non_ignored_diff_status != 0
           if options[:exit]
