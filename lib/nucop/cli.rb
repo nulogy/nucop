@@ -202,6 +202,7 @@ module Nucop
         "--no-server",
         "--parallel",
         rubocop_gem_requires.join(" "),
+        rubocop_gem_plugins.join(" "),
         formatters.join(" "),
         "--force-exclusion",
         "--config", config_file,
@@ -352,6 +353,10 @@ module Nucop
 
     def rubocop_gem_requires
       Nucop::Helpers::RubocopGemDependencies.rubocop_gems.map { |rubocop_gem| "--require #{rubocop_gem}" }
+    end
+
+    def rubocop_gem_plugins
+      Nucop::Helpers::RubocopGemPlugins.rubocop_gems.map { |rubocop_gem| "--plugin #{rubocop_gem}" }
     end
 
     def update_enforced_cops

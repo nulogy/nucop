@@ -10,12 +10,7 @@ module Nucop
           rubocop-capybara
           rubocop-factory_bot
           rubocop-graphql
-          rubocop-performance
-          rubocop-rails
-          rubocop-rake
-          rubocop-rspec
           rubocop-rspec_rails
-          rubocop-rubycw
           rubocop-thread_safety
         ]
       end
