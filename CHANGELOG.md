@@ -2,6 +2,12 @@
 
 ## main (unreleased)
 
+## 0.12.4 (2025-02-21)
+
+### Fixed
+
+* Update gems to be loaded via plugin command where applicable
+
 ## 0.12.3 (2024-10-21)
 
 ### Fixed
