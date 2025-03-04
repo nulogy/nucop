@@ -2,6 +2,12 @@
 
 ## main (unreleased)
 
+## 0.13.0 (2025-03-04)
+
+### Fixed
+
+* Support rubocop's plugin architecture
+
 ## 0.12.3 (2024-10-21)
 
 ### Fixed
