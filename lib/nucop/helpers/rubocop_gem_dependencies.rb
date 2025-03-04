@@ -4,19 +4,24 @@ module Nucop
     module RubocopGemDependencies
       module_function
 
+      def rubocop_plugins
+        %w[
+          rubocop-performance
+          rubocop-rspec
+          rubocop-rubycw
+          rubocop-rails
+          rubocop-rake
+          rubocop-thread_safety
+        ]
+      end
+
       def rubocop_gems
         %w[
           rubocop
           rubocop-capybara
           rubocop-factory_bot
           rubocop-graphql
-          rubocop-performance
-          rubocop-rails
-          rubocop-rake
-          rubocop-rspec
           rubocop-rspec_rails
-          rubocop-rubycw
-          rubocop-thread_safety
         ]
       end
     end
