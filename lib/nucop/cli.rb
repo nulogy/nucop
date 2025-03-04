@@ -350,6 +350,10 @@ module Nucop
       system("git checkout #{options[:rubocop_todo_config_file]}")
     end
 
+    def rubocop_gem_plugins
+      Nucop::Helpers::RubocopGemDependencies.rubocop_plugins.map { |rubocop_gem| "--plugin #{rubocop_gem}" }
+    end
+
     def rubocop_gem_requires
       Nucop::Helpers::RubocopGemDependencies.rubocop_gems.map { |rubocop_gem| "--require #{rubocop_gem}" }
     end
