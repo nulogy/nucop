@@ -6,9 +6,9 @@ module Nucop
 
       def rubocop_plugins
         %w[
+          rubocop-factory_bot
           rubocop-performance
           rubocop-rspec
-          rubocop-rubycw
           rubocop-rails
           rubocop-rake
           rubocop-thread_safety
@@ -19,7 +19,6 @@ module Nucop
         %w[
           rubocop
           rubocop-capybara
-          rubocop-factory_bot
           rubocop-graphql
           rubocop-rspec_rails
         ]

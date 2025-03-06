@@ -35,7 +35,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rubocop-rake", "~> 0.6"
   spec.add_dependency "rubocop-rspec", "~> 3.1"
   spec.add_dependency "rubocop-rspec_rails", "~> 2.30"
-  spec.add_dependency "rubocop-rubycw", "~> 0.1"
   spec.add_dependency "rubocop-thread_safety", "~> 0.5"
 
   spec.add_dependency "git_diff_parser", "~> 4.0"
