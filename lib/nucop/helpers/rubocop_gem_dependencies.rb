@@ -8,7 +8,6 @@ module Nucop
         %w[
           rubocop-performance
           rubocop-rspec
-          rubocop-rubycw
           rubocop-rails
           rubocop-rake
           rubocop-thread_safety
