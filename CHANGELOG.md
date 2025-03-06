@@ -2,6 +2,11 @@
 
 ## main (unreleased)
 
+## 0.13.1 (2025-03-06)
+
+* Drop the rubocop-rubycw dependency
+* The rubocop-factory_bot is now a rubocop plugin
+
 ## 0.13.0 (2025-03-04)
 
 ### Fixed
