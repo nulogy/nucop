@@ -2,6 +2,11 @@
 
 ## main (unreleased)
 
+## 0.13.2 (2025-03-10)
+
+* The rubocop-capybara is now a rubocop plugin
+* The rubocop-rspec_rails is now a rubocop plugin
+
 ## 0.13.1 (2025-03-06)
 
 * Drop the rubocop-rubycw dependency
