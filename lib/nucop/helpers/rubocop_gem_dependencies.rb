@@ -8,6 +8,7 @@ module Nucop
         %w[
           rubocop-capybara
           rubocop-factory_bot
+          rubocop-graphql
           rubocop-performance
           rubocop-rails
           rubocop-rake
@@ -20,7 +21,6 @@ module Nucop
       def rubocop_gems
         %w[
           rubocop
-          rubocop-graphql
         ]
       end
     end
