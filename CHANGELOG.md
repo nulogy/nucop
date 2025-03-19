@@ -2,15 +2,16 @@
 
 ## main (unreleased)
 
-## 0.13.2 (2025-03-10)
+## 0.13.2 (2025-03-19)
 
-* The rubocop-capybara is now a rubocop plugin
-* The rubocop-rspec_rails is now a rubocop plugin
+* The rubocop-capybara gem is now a rubocop plugin
+* The rubocop-graphql gem is now a rubocop plugin
+* The rubocop-rspec_rails gem is now a rubocop plugin
 
 ## 0.13.1 (2025-03-06)
 
 * Drop the rubocop-rubycw dependency
-* The rubocop-factory_bot is now a rubocop plugin
+* The rubocop-factory_bot gem is now a rubocop plugin
 
 ## 0.13.0 (2025-03-04)
 

@@ -5,9 +5,9 @@ RSpec.describe Nucop::Helpers::RubocopGemDependencies do
 
   let(:gemspec) { Gem::Specification.load("nucop.gemspec") }
 
-  it "checks that the Nucop::Cli#rubocop_gems method agrees with the dependencies listed in the nucop.gemspec" do
+  it "checks that the known dependencies agree with the dependencies listed in the nucop.gemspec" do
     gemspec_gems = gemspec.runtime_dependencies.map(&:name).filter { |name| name.start_with?("rubocop") }.sort
-    cli_gems = gem_dependencies.rubocop_gems.sort
+    cli_gems = (gem_dependencies.rubocop_gems + gem_dependencies.rubocop_plugins).sort
 
     expect(gemspec_gems).to eq(cli_gems)
   end
