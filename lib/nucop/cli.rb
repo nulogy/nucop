@@ -280,6 +280,7 @@ module Nucop
       cops = enforced_cops
 
       cops.delete("Lint/UnneededCopDisableDirective")
+      cops.delete("Lint/RedundantCopDisableDirective")
 
       cops
     end
