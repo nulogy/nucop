@@ -2,6 +2,10 @@
 
 ## main (unreleased)
 
+## 0.13.3 (2025-03-36)
+
+* Filter Lint/RedundantCopDisableDirective cop from cops_to_enforce as it doesn't support being run under the --only flag
+
 ## 0.13.2 (2025-03-19)
 
 * The rubocop-capybara gem is now a rubocop plugin
